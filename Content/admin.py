@@ -12,8 +12,8 @@ class ChannelAdmin(admin.ModelAdmin):
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ("title", "chanel", "description")
-    search_fields = ("title", "chanel", "description")
+    list_display = ("title", "channel", "description")
+    search_fields = ("title", "channel", "description")
 
 
 @admin.register(Hashtag)
