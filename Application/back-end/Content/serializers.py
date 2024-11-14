@@ -17,7 +17,7 @@ class ChannelSerializer(serializers.ModelSerializer):
 class VideoSerializer(serializers.ModelSerializer):
     channel = AccessPrimaryKeyRelatedField(model=Channel, filter_condition="author", only=(
         "author", "name"
-    ), label=Video.channel.verbose_name)
+    ))
 
     @staticmethod
     def validate_video(data):
