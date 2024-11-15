@@ -8,3 +8,20 @@ services:
       - ./Application:/Application
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+
+  redis:
+    image: redis:7.4.0-alpine
+    hostname: redis
+
+  worker:
+    build:
+      context: .
+    hostname: worker
+    entrypoint: celery
+    command: -A celery_app.app worker --loglevel=info
+    volumes:
+      - ./Application:/Application
+    links:
+      - redis
+    depends_on:
+      - redis
