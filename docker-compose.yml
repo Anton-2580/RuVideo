@@ -1,13 +1,13 @@
 services:
   back-end:
     build:
-      context: .
-    ports:
-      - "8000:8000"
+      context: ./Application/back-end/
+      dockerfile: Dockerfile
+    expose:
+      - 8000
     volumes:
-      - ./Application:/Application
-    command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      - ./Application/back-end:/Application/back-end
+    command: gunicorn RuVideo.wsgi:application --bind 0.0.0.0:8000
 
   redis:
     image: redis:7.4.0-alpine
@@ -15,13 +15,30 @@ services:
 
   worker:
     build:
-      context: .
+      context: ./Application/back-end/
+      dockerfile: Dockerfile
     hostname: worker
     entrypoint: celery
     command: -A celery_app.app worker --loglevel=info
     volumes:
-      - ./Application:/Application
+      - ./Application/back-end:/Application/back-end
     links:
       - redis
     depends_on:
       - redis
+
+
+  nginx:
+    restart: always
+    build:
+      context: ./Application/nginx/
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - back-end
+#      - front-end
+    volumes:
+      - ./Application/back-end/static:/etc/nginx/static
+      - ./Application/back-end/media:/etc/nginx/media

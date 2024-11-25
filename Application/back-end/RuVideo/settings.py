@@ -24,6 +24,9 @@ SECRET_KEY = 'django-insecure-z$d#6n&^*qo7g)5%w6os0ayg+86kt)iaw(==orkr$50^9)ln%v
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG,
+}
 
 ALLOWED_HOSTS = []
 
@@ -36,7 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.sites",
 
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    # "allauth.socialaccount.providers.vk",
     "debug_toolbar",
     "rest_framework",
     "corsheaders",
@@ -59,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    "allauth.account.middleware.AccountMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -139,6 +148,26 @@ LOGGING = {
     }
 }
 
+# allauth
+# https://docs.allauth.org/en/latest/
+AUTH_USER_MODEL = "Auth.User"
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend"
+)
+
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = ""
+# EMAIL_HOST_PASSWORD = ""
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_BACKEND = "Auth.backend.CeleryEmailBackend"
+
+SITE_ID = 1
+
+SOCIALACCOUNT_PROVIDERS = {}
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -171,9 +200,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = []
+STATICFILES_DIRS = [
+
+]
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -182,5 +213,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-AUTH_USER_MODEL = "Auth.User"

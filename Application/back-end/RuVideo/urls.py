@@ -16,12 +16,10 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path, re_path, include
+from django.urls import path, include
 from rest_framework import routers
 
 from Content.views import *
-from django.views.static import serve
-from django.conf.urls.static import static
 
 
 router = routers.SimpleRouter()
@@ -31,25 +29,15 @@ router.register("Hashtag", HashtagViewSet)
 router.register("Rating", RatingViewSet)
 
 urlpatterns = [
-    path("auth/", include("rest_framework.urls")),
     path("api/", include(router.urls)),
+    path("accounts/", include("allauth.urls")),
 
     path('admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
-    from django.urls import include
 
-    urlpatterns = [
-        path("__debug__/", include(debug_toolbar.urls)),
-    ] + urlpatterns
-
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-else:
     urlpatterns += [
-        re_path(f'^{settings.MEDIA_URL.lstrip("/")}(?P<path>.*)$',
-                serve, {'document_root': settings.MEDIA_ROOT}),
-        re_path(f'^{settings.STATIC_URL.lstrip("/")}(?P<path>.*)$',
-                serve, {'document_root': settings.STATIC_ROOT})
+        path("__debug__/", include(debug_toolbar.urls)),
     ]
