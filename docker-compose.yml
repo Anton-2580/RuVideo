@@ -28,6 +28,21 @@ services:
       - redis
 
 
+  front-end:
+    build:
+      context: ./Application/front-end/
+      dockerfile: Dockerfile
+    expose:
+      - 5173
+    volumes:
+      - ./Application/front-end/src:/Application/front-end/src
+      - ./Application/front-end/public:/Application/front-end/public
+      - ./Application/front-end/index.html:/Application/front-end/index.html
+    command: yarn run dev --host
+    depends_on:
+      - back-end
+
+
   nginx:
     restart: always
     build:
@@ -38,7 +53,7 @@ services:
       - 443:443
     depends_on:
       - back-end
-#      - front-end
+      - front-end
     volumes:
       - ./Application/back-end/static:/etc/nginx/static
       - ./Application/back-end/media:/etc/nginx/media
