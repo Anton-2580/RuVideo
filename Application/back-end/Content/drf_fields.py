@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from typing import Callable
 
 
 class AccessPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
@@ -14,7 +15,10 @@ class AccessPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
         current_user = self.context.get("request", None).user
 
         if None not in (self.model, self.filter_condition, current_user):
-            queryset = self.model.objects.filter(**{self.filter_condition: current_user})
+            if isinstance(self.filter_condition, Callable):
+                queryset = self.model.objects.filter(self.filter_condition(current_user))
+            else:
+                queryset = self.model.objects.filter(**{self.filter_condition: current_user})
 
         if self.only:
             queryset = queryset.only(*self.only)

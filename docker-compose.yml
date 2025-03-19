@@ -8,6 +8,8 @@ services:
     volumes:
       - ./Application/back-end:/Application/back-end
     command: gunicorn RuVideo.wsgi:application --bind 0.0.0.0:8000
+    depends_on:
+      - redis
 
   redis:
     image: redis:7.4.0-alpine
@@ -18,8 +20,7 @@ services:
       context: ./Application/back-end/
       dockerfile: Dockerfile
     hostname: worker
-    entrypoint: celery
-    command: -A celery_app.app worker --loglevel=info
+    command: celery -A RuVideo.celery_app.app worker --loglevel=info
     volumes:
       - ./Application/back-end:/Application/back-end
     links:

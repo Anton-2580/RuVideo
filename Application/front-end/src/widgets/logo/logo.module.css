@@ -1,0 +1,27 @@
+.small_logo {
+  min-height: 2rem;
+  height: 3vw;
+}
+.big_logo {
+  min-height: 2rem;
+  height: 4vw;
+}
+
+
+#logo {
+  display: flex;
+  align-items: center;
+
+  padding: 0.5rem;
+
+  img {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}
+
+@media(max-width: 900px) {
+  .small_logo {
+    display: none;
+  }
+}

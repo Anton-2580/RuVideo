@@ -1,8 +1,12 @@
-from rest_framework import viewsets
-from .permissions import IsOwnerOrReadOnly
+from rest_framework import viewsets, mixins
+from rest_framework.viewsets import GenericViewSet
+from rest_framework.permissions import IsAuthenticated
 
-from .models import Channel, Video, Hashtag, Rating
-from .serializers import ChannelSerializer, VideoSerializer, HashtagSerializer, RatingSerializer
+from .permissions import IsOwnerOrReadOnly, IsOwner
+
+from .models import Channel, Video, Comment, Hashtag, Rating, Subscribe, Notification
+from .serializers import (ChannelSerializer, VideoSerializer, CommentSerializer, HashtagSerializer, RatingSerializer,
+                          SubscribeSerializer, NotificationSerializer)
 
 
 class ChannelViewSet(viewsets.ModelViewSet):
@@ -17,6 +21,12 @@ class VideoViewSet(viewsets.ModelViewSet):
     permission_classes = (IsOwnerOrReadOnly,)
 
 
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    pagination_class = (IsOwnerOrReadOnly, )
+
+
 class HashtagViewSet(viewsets.ModelViewSet):
     queryset = Hashtag.objects.all()
     serializer_class = HashtagSerializer
@@ -26,4 +36,19 @@ class HashtagViewSet(viewsets.ModelViewSet):
 class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsAuthenticated,)
+
+
+class SubscribeViewSet(viewsets.ModelViewSet):
+    queryset = Subscribe.objects.all()
+    serializer_class = SubscribeSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class NotificationViewSet(mixins.RetrieveModelMixin,
+                          mixins.UpdateModelMixin,
+                          mixins.ListModelMixin,
+                          GenericViewSet):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+    permission_classes = (IsOwner,)

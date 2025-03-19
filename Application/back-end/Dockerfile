@@ -7,6 +7,5 @@ WORKDIR /Application/back-end
 
 RUN pip install -r /temp/requirements.txt
 
-RUN adduser --disabled-password application-user
-
-USER application-user
+#RUN adduser -h . --disabled-password backend-user
+#USER backend-user

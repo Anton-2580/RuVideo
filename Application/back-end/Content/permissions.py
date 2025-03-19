@@ -1,17 +1,8 @@
 from rest_framework import permissions
 
 
-class IsOwnerOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
+class Owner(permissions.BasePermission):
     models_fields = ["author", "user", "channel.author"]
-
-    def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-
-        if request.user and not request.user.is_authenticated:
-            return False
-
-        return self.is_owner(obj, request.user)
 
     def is_owner(self, obj, user):
         field = obj
@@ -22,3 +13,18 @@ class IsOwnerOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
                     field = next_field
 
         return field == user
+
+
+class IsOwnerOrReadOnly(permissions.IsAuthenticatedOrReadOnly, Owner):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        if request.user and not request.user.is_authenticated:
+            return False
+
+        return self.is_owner(obj, request.user)
+
+
+class IsOwner(permissions.IsAuthenticated, Owner):
+    ...

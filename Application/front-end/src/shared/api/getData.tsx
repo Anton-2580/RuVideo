@@ -1,12 +1,12 @@
 import { UseQueryResult } from "react-query"
-import { getData } from "./getUseQuery"
+import { useOrdinaryQuery } from "./getUseQuery"
 import { Pagination, PathsAPI } from "./PathsAPI"
 
 
-export function getOneDataObject(id: number, dataObject: PathsAPI): UseQueryResult {
-    const path = dataObject + id
+export function getDataObject(id: number, dataObject: PathsAPI): UseQueryResult {
+    const path = dataObject + id + "/"
 
-    return getData(path, path + '/')
+    return useOrdinaryQuery(path)
 }
 
 
@@ -18,7 +18,7 @@ export function getDataObjects(
     skip: skip,
     limit: limit = 10,
 ): UseQueryResult {
-    const path = dataObject + `?${Pagination.SKIP}=${skip}/?${Pagination.LIMIT}=${limit}`
+    const path = dataObject + `?${Pagination.SKIP}=${skip}&?${Pagination.LIMIT}=${limit}`
 
-    return getData(path, path)
+    return useOrdinaryQuery(path)
 }

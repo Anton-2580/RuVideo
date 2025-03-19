@@ -1,0 +1,48 @@
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.groups {
+  width: max-content;
+  height: max-content;
+  margin-right: 1.4rem;
+  position: sticky;
+  top: var(--header-height);
+}
+
+#menu, #selected_menu {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: all 0.2s ease-in-out;
+
+  #menubar1, #menubar2, #menubar3 {
+    transition: all 0.2s ease-in-out;
+    border-radius: 20px;
+    background-color: var(--current-color);
+    margin: 0.2rem 0;
+    width: 2vw;
+    min-height: 0.2rem;
+    height: 0.2vw;
+  }
+}
+
+#selected_menu {
+  padding: 0.5vw;
+  #menubar1 {
+    width: 1.5vw;
+  }
+  #menubar2 {
+    width: 0.75vw;
+  }
+  #menubar3 {
+    width: 1.5vw;
+  }
+}
+
+@media(max-width: 500px) {
+  .groups, #menu {
+    display: none;
+  }
+}

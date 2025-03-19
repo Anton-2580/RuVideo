@@ -1,8 +1,7 @@
-import { Logo } from "@/widgets"
+import { VideoCard } from "@/widgets" 
 
 
-export function HomePage() {
-    return (
-        <Logo />
-    )
+export default function HomePage() {
+    return (<main>
+    </main>)
 }

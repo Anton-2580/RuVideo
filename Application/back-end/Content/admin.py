@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Channel, Video, Hashtag
+from .models import Channel, Video, Hashtag, Comment
 
 
 @admin.register(Channel)
@@ -14,6 +14,12 @@ class ChannelAdmin(admin.ModelAdmin):
 class VideoAdmin(admin.ModelAdmin):
     list_display = ("title", "channel", "description")
     search_fields = ("title", "channel", "description")
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ("text", "created")
+    search_fields = ("text", "created", "parent")
 
 
 @admin.register(Hashtag)

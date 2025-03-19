@@ -1,0 +1,73 @@
+header {
+  --search-border-redius: max(20px, 2vw);
+  --search-border-color: black;
+  --search-height: max(2rem, 2.5vw);
+  --search-button-width: max(38px, 3.5vw);
+}
+
+
+#search {
+  display: flex;
+  width: 40%;
+
+  input {
+    border-color: var(--search-border-color);
+    border-radius: var(--search-border-redius);
+    width: calc(100% - 1 * var(--search-button-width));
+    padding-inline-start: 0.75rem;
+    padding-right: var(--search-button-width);
+    box-sizing: border-box;
+  }
+
+  div {
+    position: relative;
+    height: var(--search-height);
+
+    button {
+      position: absolute;
+      left: calc(-1 * var(--search-button-width));
+    }
+  }
+}
+
+#search_button, #mobile_search_button, #dictaphone_button {
+  width: var(--search-button-width);
+  background-color: var(--search-border-color);
+  border-radius: var(--search-border-redius);
+  height: var(--search-height);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  img {
+    height: calc(var(--search-height) / 2);
+    position: relative;
+    top: var(--top);
+  }
+}
+
+#mobile_search_button {
+  min-width: 2rem;
+  min-height: 1.5rem;
+  width: var(--search-button-width);
+  height: var(--search-height);
+}
+
+
+@media (min-width: 750px) {
+  #mobile_search_button {
+    display: none;
+  }
+}
+@media (max-width: 750px) {
+  #search {
+    display: none;
+  }
+
+  header {
+    justify-content: space-between;
+  }
+}

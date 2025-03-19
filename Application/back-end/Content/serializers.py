@@ -1,8 +1,9 @@
 from rest_framework import serializers
+from django.db.models import Q
 from django.utils.translation import pgettext_lazy as _
 
 from .drf_fields import AccessPrimaryKeyRelatedField
-from .models import Channel, Video, Hashtag, Rating
+from .models import Channel, Video, Hashtag, Rating, Subscribe, Notification, Comment
 
 
 class ChannelSerializer(serializers.ModelSerializer):
@@ -10,7 +11,10 @@ class ChannelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Channel
-        extra_kwargs = {"is_blocked": {"read_only": True}}
+        extra_kwargs = {
+            "is_blocked": {"read_only": True},
+            "subscribers": {"read_only": True}
+        }
         fields = "__all__"
 
 
@@ -19,10 +23,16 @@ class VideoSerializer(serializers.ModelSerializer):
         "author", "name"
     ))
 
+    def to_representation(self, instance: Video):
+        res = super().to_representation(instance)
+        res["dataTime"] = instance.dataTime.timestamp()
+        return res
+
     @staticmethod
     def validate_video(data):
         error = serializers.ValidationError(
-                _("Upload a valid video. The file you uploaded was either not an video or a corrupted video."))
+            _("Upload a valid video. The file you uploaded was either not an video or a corrupted video."),
+        )
 
         try:
             if "video" in data.file.name:
@@ -33,6 +43,12 @@ class VideoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Video
+        fields = "__all__"
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
         fields = "__all__"
 
 
@@ -51,4 +67,24 @@ class RatingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rating
+        fields = "__all__"
+
+
+class SubscribeSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    channel = AccessPrimaryKeyRelatedField(model=Channel, filter_condition=lambda user: ~Q(author=user), only=(
+            "name",
+        ))
+
+    class Meta:
+        model = Subscribe
+        fields = "__all__"
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Notification
+        extra_kwargs = {"message": {"read_only": True}}
         fields = "__all__"

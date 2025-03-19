@@ -1,2 +1,4 @@
 .idea
 __pycache__
+/Application/back-end/static
+/Application/back-end/media

@@ -1,13 +1,9 @@
-import { ReactNode } from "react"
+import { PropsWithChildren } from "react"
 import { QueryClientProvider } from "react-query"
 import { queryClient } from "@/shared"
 
 
-type Props = {
-	children: ReactNode
-}
-
-export function QueryProvider({ children }: Props) {
+export function QueryProvider({ children }: PropsWithChildren) {
 	return (
 		<QueryClientProvider client={queryClient}>
 			{children}

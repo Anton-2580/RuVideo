@@ -1,5 +1,4 @@
 from django.contrib import admin
-from allauth.account.decorators import secure_admin_login
 from django.utils.safestring import mark_safe
 
 from django.contrib.auth import get_user_model
@@ -20,6 +19,3 @@ class UserAdmin(BaseUserAdmin):
 admin.site.site_header = "Администрирование RuVideo"
 admin.site.site_title = "Администрирование RuVideo"
 admin.site.index_title = "Администрирование RuVideo"
-
-admin.autodiscover()
-admin.site.login = secure_admin_login(admin.site.login)

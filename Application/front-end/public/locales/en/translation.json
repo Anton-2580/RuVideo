@@ -1,0 +1,18 @@
+{
+    "menu": {
+        "titles": {
+            "you": "You",
+            "subscriptions": "Subscriptions"
+        },
+        "menuItems": {
+            "home": "Home",
+            "shorts": "Shorts",
+            "subscriptions": "Subscriptions",
+            "translations": "Translations",
+            "history": "History",
+            "your_videos": "Your videos",
+            "see_later": "See later",
+            "liked": "Liked"
+        }
+    }
+}

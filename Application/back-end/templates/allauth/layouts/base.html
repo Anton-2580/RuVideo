@@ -16,7 +16,7 @@
     {% endblock extra_head %}
   </head>
   <body>
-    {% block body %}
+    <div id="page">{% block body %}
       <header>
         <h1>RuVideo</h1>
 
@@ -89,7 +89,7 @@
         {% block content %}
         {% endblock content %}
       </div>
-    {% endblock body %}
+    </div>{% endblock body %}
 
     <footer>
       {% block extra_body %}

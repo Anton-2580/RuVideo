@@ -19,18 +19,26 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
+
+from dj_rest_auth.views import PasswordResetConfirmView
 from Content.views import *
 
 
 router = routers.SimpleRouter()
 router.register("Channel", ChannelViewSet)
 router.register("Video", VideoViewSet)
+router.register("Comment", CommentViewSet)
 router.register("Hashtag", HashtagViewSet)
 router.register("Rating", RatingViewSet)
+router.register("Subscribe", SubscribeViewSet)
+router.register("Notification", NotificationViewSet)
 
 urlpatterns = [
     path("api/", include(router.urls)),
-    path("accounts/", include("allauth.urls")),
+
+    path("api/auth/", include("dj_rest_auth.urls")),
+    path("api/auth/password/reset/confirm/<uidb64>/<token>/", PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path("api/registration/", include("dj_rest_auth.registration.urls")),
 
     path('admin/', admin.site.urls),
 ]

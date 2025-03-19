@@ -1,0 +1,18 @@
+{
+    "menu": {
+        "titles": {
+            "you": "Вы",
+            "subscriptions": "Подписки"
+        },
+        "items": {
+            "home": "Главная",
+            "shorts": "Shorts",
+            "subscriptions": "Подписки",
+            "translations": "Трансляции",
+            "history": "История",
+            "your_videos": "Ваши видео",
+            "see_later": "Смотреть позже",
+            "liked": "Понравившиеся"
+        }
+    }
+}

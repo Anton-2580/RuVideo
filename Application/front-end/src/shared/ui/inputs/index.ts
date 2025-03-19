@@ -1,0 +1,5 @@
+export { PasswordInput } from "./PasswordInput"
+export { EmailInput } from "./EmailInput"
+export { FormInput } from "./FormInput"
+export { RegistredFormInput } from "./RegistredFormInput"
+export { buttonsStyles }; import buttonsStyles from "./inputs.module.css"

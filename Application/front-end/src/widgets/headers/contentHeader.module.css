@@ -1,0 +1,17 @@
+#left_content, #right_content {
+  display: flex;
+  align-items: center;
+}
+
+#left_content {
+  gap: 1rem;
+}
+
+#right_content {
+  gap: 1rem;
+
+  & > a > img {
+    min-height: 1rem;
+    height: 2vw;
+  }
+}

@@ -6,5 +6,5 @@ WORKDIR /Application/front-end
 RUN yarn install --save-optional
 RUN yarn run build
 
-#RUN adduser --disabled-password application-user
-#USER application-user
+#RUN adduser -h . --disabled-password frontend-user
+#USER frontend-user

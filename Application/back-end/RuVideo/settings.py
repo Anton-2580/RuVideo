@@ -41,12 +41,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "django.contrib.sites",
 
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     # "allauth.socialaccount.providers.vk",
     "debug_toolbar",
     "rest_framework",
+    "rest_framework.authtoken",
     "corsheaders",
     "Content.apps.ContentConfig",
     "Auth.apps.AuthConfig"
@@ -121,6 +124,8 @@ DATABASES = {
 
 # redis and celery
 CELERY_BROKER_URL = "redis://redis:6379/0"
+CELERY_RESULT_BACKEND = "redis://redis:6379/0"
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 CACHES = {
     "default": {
@@ -148,25 +153,41 @@ LOGGING = {
     }
 }
 
-# allauth
+# allauth + dj_rest_auth
 # https://docs.allauth.org/en/latest/
+# https://dj-rest-auth.readthedocs.io/en/latest/
+
 AUTH_USER_MODEL = "Auth.User"
+REST_AUTH = {
+    "USER_DETAILS_SERIALIZER": "Auth.serializers.UserDetailsSerializer",
+}
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend"
 )
 
-# EMAIL_HOST = "smtp.gmail.com"
-# EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = ""
-# EMAIL_HOST_PASSWORD = ""
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = 587
-# EMAIL_BACKEND = "Auth.backend.CeleryEmailBackend"
-
 SITE_ID = 1
 
-SOCIALACCOUNT_PROVIDERS = {}
+# mail
+
+EMAIL_BACKEND = "Auth.backend.CeleryEmailBackend"
+EMAIL_BACKEND_USED_BY_CELERY = "django.core.mail.backends.console.EmailBackend"
+
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
+
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+
+EMAIL_HOST = "smtp.yandex.ru"
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -191,7 +212,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -206,7 +227,7 @@ STATICFILES_DIRS = [
 
 ]
 
-MEDIA_URL = "media/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
