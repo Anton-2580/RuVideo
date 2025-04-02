@@ -1,4 +1,4 @@
-import { ChannelInfo } from "./ChannelInfo"
+import type { ChannelInfo } from "./ChannelInfo"
 
 
 interface VideoInfo {
@@ -8,6 +8,7 @@ interface VideoInfo {
     title: string
     description: string
     channel: ChannelInfo
+    browsing: number
 }
 
 export type { VideoInfo };

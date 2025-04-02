@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
 import os
+
+load_dotenv("config.env")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z$d#6n&^*qo7g)5%w6os0ayg+86kt)iaw(==orkr$50^9)ln%v'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -28,7 +31,11 @@ DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG,
 }
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    ".rvideo.pro",
+]
+
+CSRF_COOKIE_SECURE = True
 
 # Application definition
 
@@ -89,8 +96,10 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
-# CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:8000/", "http://localhost:8000/",
-#                         "http://127.0.0.1:3000/", "http://localhost:3000/"]
+CORS_ALLOWED_ORIGINS = [
+    "https://rvideo.pro",
+    "https://www.rvideo.pro",
+]
 
 ROOT_URLCONF = 'RuVideo.urls'
 
@@ -117,8 +126,11 @@ WSGI_APPLICATION = 'RuVideo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "ENGINE": 'django.db.backends.postgresql',
+        "HOST": os.environ.get("DB_HOST"),
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
     }
 }
 
@@ -174,16 +186,22 @@ SITE_ID = 1
 EMAIL_BACKEND = "Auth.backend.CeleryEmailBackend"
 EMAIL_BACKEND_USED_BY_CELERY = "django.core.mail.backends.console.EmailBackend"
 
-EMAIL_HOST_USER = ""
-EMAIL_HOST_PASSWORD = ""
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
-# EMAIL_HOST = "smtp.gmail.com"
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = 587
-
-EMAIL_HOST = "smtp.yandex.ru"
-EMAIL_USE_SSL = True
-EMAIL_PORT = 465
+match os.environ.get("SMTP_TYPE"):
+    case "mail":
+        EMAIL_HOST = "smtp.mail.ru"
+        EMAIL_USE_TLS = True
+        EMAIL_PORT = 465
+    case "yandex":
+        EMAIL_HOST = "smtp.yandex.ru"
+        EMAIL_USE_SSL = True
+        EMAIL_PORT = 465
+    case _:
+        EMAIL_HOST = "smtp.gmail.com"
+        EMAIL_USE_TLS = True
+        EMAIL_PORT = 587
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER

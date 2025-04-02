@@ -1,4 +1,8 @@
 {
+    "browsing_one": "{{count}} просмотр",
+    "browsing_many": "{{count}} просмотров",
+    "browsing_few": "{{count}} просмотра",
+
     "menu": {
         "titles": {
             "you": "Вы",

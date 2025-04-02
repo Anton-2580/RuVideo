@@ -1,10 +1,9 @@
 import { Link } from "react-router"
-import { CSSProperties, PropsWithChildren } from "react"
-import { motion, LazyMotion } from "@/shared/util/lazyLibraries/motion"
+import type { CSSProperties, PropsWithChildren } from "react"
+import { motion, LazyMotion, domAnimation } from "@/shared/util/lazyLibraries/motion"
 import { useTranslation } from "react-i18next"
 import { ColorVars, ColorClassNames } from "@/app/styles/ColorVars"
 import { useMenuStore } from "@/entities"
-import { domAnimation } from "@/shared/util/lazyLibraries/motion"
 import styles from "./menu.module.css"
 
 

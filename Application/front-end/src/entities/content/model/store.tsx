@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { SearchState, MenuState } from "./types"
+import type { SearchState, MenuState } from "./types"
 
 
 export const useSearchStore = create<SearchState>((set) => ({

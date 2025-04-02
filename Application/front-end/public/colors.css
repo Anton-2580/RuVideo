@@ -1,14 +1,18 @@
 :root {
+  --ghost-color: #ffffff33;
   --current-color: #000;
   --images-glow: #666;
   --selected-block: #D9D9D9;
   --default-image-filter: drop-shadow(1px 1px 2px var(--images-glow));
   --secondary-font-color: #BBB;
+
+  --video-hover-color: #aaaaaa88;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
+    --ghost-color: #ffffff33;
     --current-color: #fff;
     --images-glow: #aaa;
     --selected-block: #6b6b6b;

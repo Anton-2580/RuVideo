@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { useOrdinaryQuery, PathsAPI, NavigateTextButton, Paths, UserData, Images } from "@/shared"
+import type { UserData } from "@/shared"
+import { useOrdinaryQuery, PathsAPI, NavigateTextButton, Paths, Images } from "@/shared"
 import { useUserStore } from "@/entities"
 import { CurrentUserInfo } from "./CurrentUserInfo"
 import styles from "./currentuser.module.css"

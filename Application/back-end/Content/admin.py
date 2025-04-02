@@ -5,6 +5,7 @@ from .models import Channel, Video, Hashtag, Comment
 
 @admin.register(Channel)
 class ChannelAdmin(admin.ModelAdmin):
+    exclude = ("subscribers", )
     list_display = ("name", "author", "description", "is_blocked")
     list_filter = ("is_blocked", )
     search_fields = ("name", "author", "description")
@@ -12,7 +13,9 @@ class ChannelAdmin(admin.ModelAdmin):
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ("title", "channel", "description")
+    exclude = ("browsing", )
+    prepopulated_fields = {"slug": ("channel", "title")}
+    list_display = ("title", "channel", "description", "browsing")
     search_fields = ("title", "channel", "description")
 
 

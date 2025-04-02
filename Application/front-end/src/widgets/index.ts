@@ -1,5 +1,6 @@
 import { lazy } from "react"
 
+
 const ContentHeader = lazy(() => import("./headers/").then(module => ({ default: module.ContentHeader })))
 const Menu = lazy(() => import("./menu/Menu"))
 const ButtonMenu = lazy(() => import("./menu/ButtonMenu"))
@@ -10,6 +11,7 @@ const LoginForm = lazy(() => import("./authRegistration/LoginForm"))
 const RegistrationForm = lazy(() => import("./authRegistration/RegistrationForm"))
 const Logo = lazy(() => import("./logo/Logo"))
 const VideoCard = lazy(() => import("./video/VideoCard"))
+const VideoList = lazy(() => import("./video/VideoList"))
 
 export { 
     ContentHeader,
@@ -22,4 +24,5 @@ export {
     RegistrationForm,
     Logo,
     VideoCard,
+    VideoList,
 }

@@ -1,5 +1,5 @@
-import { CSSProperties } from "react";
-import { Link, LinkProps } from "react-router";
+import { type CSSProperties } from "react";
+import { Link, type LinkProps } from "react-router";
 
 
 type NavigateImageButtonProps = LinkProps & {

@@ -1,6 +1,6 @@
 import { UseQueryResult } from "react-query"
 import { useOrdinaryQuery } from "./getUseQuery"
-import { Pagination, PathsAPI } from "./PathsAPI"
+import { Pagination, type PathsAPI } from "./PathsAPI"
 
 
 export function getDataObject(id: number, dataObject: PathsAPI): UseQueryResult {

@@ -1,4 +1,5 @@
-import { NavigateTextButton, NavigateImageButton, Paths, UserData } from "@/shared"
+import type { UserData } from "@/shared"
+import { NavigateTextButton, NavigateImageButton, Paths } from "@/shared"
 import styles from "./currentuser.module.css"
 import {settings, change_channel, exit} from "@/shared/img"
 

@@ -1,5 +1,6 @@
-import { DetailedHTMLProps, InputHTMLAttributes, useEffect, useRef, useState } from "react"
-import { useThrottle } from "@/shared"
+import type { DetailedHTMLProps, InputHTMLAttributes } from "react" 
+import { useEffect, useRef, useState } from "react"
+import { useThrottle } from "@/shared/hooks"
 import styles from "./inputs.module.css"
 
 

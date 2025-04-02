@@ -1,4 +1,10 @@
 {
+    "browsing_one": "{{count}} view",
+    "browsing_many": "{{count}} views",
+
+    "date": {
+        "date_ago": "{{date, DATE_AGO}}"
+    },
     "menu": {
         "titles": {
             "you": "You",

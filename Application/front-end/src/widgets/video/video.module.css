@@ -1,6 +1,11 @@
-.video_card {
+:root {
   --video-width: 30%;
+}
+
+.video_card {
   width: var(--video-width);
+  padding: 0.2rem;
+  border-radius: 6px;
 
   white-space: normal;
   word-break: break-word;
@@ -8,6 +13,10 @@
   video {
     width: 100%;
     border-radius: 12px;
+  }
+
+  a {
+    text-decoration: none;
   }
 
   p {
@@ -24,7 +33,6 @@
 
   .video_card_title {
     min-height: 3rem;
-    gap: 0.5rem;
 
     a, p {
       font-size: large;
@@ -33,9 +41,25 @@
     }
   }
 
+  .video_card_channel:hover {
+    p {
+      color: var(--current-color);
+    }
+  }
+
   .video_card_channel {
     align-items: center;
-    gap: 12px;
+    gap: 6px;
+
+    p {
+      color: var(--secondary-font-color);
+    }
+  }
+
+  .video_card_info {
+    margin-left: 0.5rem;
+    display: flex;
+    gap: 6px;
 
     p {
       color: var(--secondary-font-color);
@@ -43,19 +67,83 @@
   }
 }
 
-.video_card_more_info {
+.video_card_more_info_button {
+  position: relative;
   cursor: pointer;
   display: flex;
+  gap: 2px;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
+
+  --more-info-size: 2.4rem;
+  flex-shrink: 0;
+  width: var(--more-info-size); height: var(--more-info-size);
+
+  border-radius: 50%;
 
   li {
     list-style: none;
     border-radius: 100%;
-    width: 0.2rem; height: 0.2rem;
-    margin: 0.1rem;
+    width: calc(0.1 * var(--more-info-size)); height: calc(0.1 * var(--more-info-size));
     background-color: var(--current-color);
   }
 }
 
+.video_card_more_info {
+  position: absolute;
+  top: 2rem;
+  left: 2.5rem;
+  width: max-content;
+}
+
 .video_list {
+}
+
+
+.ghost_video_card {
+  width: var(--video-width);
+
+  .ghost_video {
+    width: 100%;
+    height: 0;
+    padding-top: 57%;
+    border-radius: 1.2rem;
+    background-color: var(--ghost-color);
+  }
+
+  .ghost_details {
+    display: flex;
+    margin-top: 0.8rem;
+    gap: 0.8rem;
+
+    .ghost_channel_avatar {
+      --avatar-size: 3rem;
+      width: var(--avatar-size); height: var(--avatar-size);
+      border-radius: 50%;
+      background-color: var(--ghost-color);
+      flex-shrink: 0;
+    }
+
+    .ghost_video_info {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+
+      .ghost_title, .ghost_meta {
+        background-color: var(--ghost-color);
+        height: 1rem;
+        border-radius: 0.8rem;
+      }
+
+      .ghost_title {
+        width: 90%;
+      }
+
+      .ghost_meta {
+        width: 70%;
+      }
+    }
+  }
 }

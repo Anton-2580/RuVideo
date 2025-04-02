@@ -7,9 +7,17 @@ services:
       - 8000
     volumes:
       - ./Application/back-end:/Application/back-end
-    command: gunicorn RuVideo.wsgi:application --bind 0.0.0.0:8000
+    command: sh -c "
+      python manage.py migrate && python manage.py collectstatic --no-input &&
+      gunicorn RuVideo.wsgi:application --bind 0.0.0.0:8000"
     depends_on:
       - redis
+      - database
+    environment:
+      - DB_HOST=database
+      - DB_NAME=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
 
   redis:
     image: redis:7.4.0-alpine
@@ -27,6 +35,19 @@ services:
       - redis
     depends_on:
       - redis
+      - database
+    environment:
+      - DB_HOST=database
+      - DB_NAME=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+
+  database:
+    image: postgres:17.4-alpine
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
 
   front-end:
@@ -56,5 +77,5 @@ services:
       - back-end
       - front-end
     volumes:
-      - ./Application/back-end/static:/etc/nginx/static
-      - ./Application/back-end/media:/etc/nginx/media
+      - ./Application/back-end/static:/usr/local/nginx/static
+      - ./Application/back-end/media:/usr/local/nginx/media

@@ -1,5 +1,5 @@
-import { DetailedHTMLProps, InputHTMLAttributes } from "react"
-import { Message } from "react-hook-form"
+import type { DetailedHTMLProps, InputHTMLAttributes } from "react"
+import type { Message } from "react-hook-form"
 import styles from "./inputs.module.css"
 
 

@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react"
+import type { PropsWithChildren } from "react"
 import { QueryClientProvider } from "react-query"
 import { queryClient } from "@/shared"
 

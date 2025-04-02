@@ -1,21 +1,37 @@
-import { DetailedHTMLProps, FormHTMLAttributes, RefObject, useRef } from "react"
+import type { DetailedHTMLProps, FormHTMLAttributes, RefObject } from "react"
+import { useRef } from "react"
 import { useNavigate } from "react-router"
 import { UseFormHandleSubmit } from "react-hook-form"
-import { Id, TypeOptions } from "react-toastify"
+import type { Id, TypeOptions } from "react-toastify"
 import { toast } from "@/shared/util/lazyLibraries/toastify"
-import { Paths, PathsAPI, Query, useOrdinaryQuery } from "@/shared"
+import type { Paths, PathsAPI } from "@/shared"
+import { Query, useOrdinaryQuery } from "@/shared/api"
 import styles from "./forms.module.css" 
 
 
 type BaseFormProps<T extends Object> = DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> & {
     path: PathsAPI
     data: RefObject<T>
+    loadingMessage: string
+    successMessage: string
+    successNavigate: Paths
+    
     setIsComplete: (value: boolean) => void
     handleSubmit: UseFormHandleSubmit<T, undefined>
 }
 
 
-export function BaseForm<T extends Object>({ path, data, setIsComplete, handleSubmit, className, ...props }: BaseFormProps<T>) {
+export function BaseForm<T extends Object>({ 
+    path,
+    data,
+    loadingMessage,
+    successMessage,
+    successNavigate,
+    setIsComplete,
+    handleSubmit,
+    className,
+    ...props
+}: BaseFormProps<T>) {
     const navigate = useNavigate()
     const { refetch, error, isLoading, isSuccess } = useOrdinaryQuery(path, Query.POST, data.current, {
         enabled: Object.values(data.current).some(Boolean),
@@ -33,7 +49,7 @@ export function BaseForm<T extends Object>({ path, data, setIsComplete, handleSu
         }
     }
 
-    const compliteSend = (message: string | undefined, type: TypeOptions) => {
+    const compliteSend = (type: TypeOptions, message?: string) => {
         toast.update(loadingId.current, {
             render: message,
             type,
@@ -47,12 +63,12 @@ export function BaseForm<T extends Object>({ path, data, setIsComplete, handleSu
     const loadingNumberOfSubmit = useRef(0)
     const compliteNumberOfSubmit = useRef(0)
 
-    sendMessage(compliteNumberOfSubmit, error, () => compliteSend(error?.message, "error"))
-    sendMessage(loadingNumberOfSubmit, isLoading, () => {loadingId.current = toast.loading("аутентификация...", )})
+    sendMessage(compliteNumberOfSubmit, error, () => compliteSend("error", error?.message))
+    sendMessage(loadingNumberOfSubmit, isLoading, () => {loadingId.current = toast.loading(loadingMessage)})
     sendMessage(compliteNumberOfSubmit, isSuccess, () => {
-        compliteSend("успешный вход", "success")
+        compliteSend("success", successMessage)
         setIsComplete(true)
-        navigate(Paths.HOME)
+        navigate(successNavigate)
     })
 
     const onSubmit = (newData: T) => {if (loadingId.current == -1) {

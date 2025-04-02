@@ -1,4 +1,4 @@
-import { MenuItemProps } from "./MenuItem"
+import { type MenuItemProps } from "./MenuItem"
 import { Paths } from "@/shared"
 import { 
     home,

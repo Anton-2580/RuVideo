@@ -1,5 +1,5 @@
-import axios, { AxiosError } from "axios"
-import { useQuery, UseQueryOptions } from "react-query";
+import axios, { type AxiosError } from "axios"
+import { useQuery, type UseQueryOptions } from "react-query";
 
 
 axios.defaults.xsrfHeaderName = "X-CSRFToken"

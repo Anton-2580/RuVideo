@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react"
+import { Suspense } from "react"
 import { createBrowserRouter, RouterProvider } from "react-router"
 import { Paths } from "@/shared"
 import { ContentHeader, Menu } from "@/widgets"

@@ -1,5 +1,5 @@
-import { FieldValues } from "react-hook-form"
-import { RegistredFormInputProps, RegistredFormInput } from "./RegistredFormInput"
+import type { FieldValues } from "react-hook-form"
+import { type RegistredFormInputProps, RegistredFormInput } from "./RegistredFormInput"
 
 
 export function MandatoryFormInput<T extends FieldValues>({options, ...props}: RegistredFormInputProps<T>) {

@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from utils.fields import VideoField
 
-from .tasks import send_notification
+from .tasks import send_notification, create_video_files
 
 
 class Channel(models.Model):
@@ -24,13 +24,15 @@ class Channel(models.Model):
 
 
 class Video(models.Model):
-    video = VideoField(verbose_name="видео")
+    video = VideoField(upload_to="video/%Y/%m/%d/original", verbose_name="видео")
     dataTime = models.DateTimeField(auto_now=True, verbose_name="дата загрузки")
     photo = models.ImageField(upload_to="photos/%Y/%m/%d/", null=True, blank=True, verbose_name="превью")
     title = models.CharField(max_length=255, verbose_name="заголовок")
     description = models.TextField(null=True, blank=True, verbose_name="описание")
     channel = models.ForeignKey(Channel, on_delete=models.PROTECT, verbose_name="канал")
     is_published = models.BooleanField(default=True, verbose_name="публикация")
+    browsing = models.PositiveIntegerField(default=0, verbose_name="просмотры")
+    slug = models.SlugField(unique=True, db_index=True, verbose_name="slug")
 
     def __str__(self):
         return self.title
@@ -43,6 +45,7 @@ class Video(models.Model):
         super().save(*args, **kwargs)
 
         send_notification.delay(f"На канале новое видео", "Content.Subscribe", {"channel": self.channel.pk})
+        create_video_files.delay(self.video.path)
 
 
 class Comment(models.Model):
@@ -105,8 +108,13 @@ class Subscribe(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
     notify = models.BooleanField(default=False)
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        raise ValueError((self.channel, dir(self.channel)))
+        self.channel.subscribers += 1
+
     class Meta:
-        unique_together = ["user", "channel"]
+        unique_together = ("user", "channel")
 
 
 class Notification(models.Model):

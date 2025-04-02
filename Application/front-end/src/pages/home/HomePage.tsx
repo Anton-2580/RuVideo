@@ -1,4 +1,4 @@
-import { VideoCard } from "@/widgets" 
+import { VideoList } from "@/widgets/"
 
 
 export default function HomePage() {

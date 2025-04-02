@@ -1,7 +1,7 @@
 import { lazy, useRef } from "react"
 import { useForm } from "react-hook-form"
-import { BaseForm, EmailInput, FormInput, PasswordInput, PathsAPI } from "@/shared"
-import { SubmitData, useUserStore } from "@/entities"
+import { BaseForm, EmailInput, FormInput, PasswordInput, Paths, PathsAPI } from "@/shared"
+import { type SubmitData, useUserStore } from "@/entities"
 
 const DefaultToast = lazy(() => import("@/shared/ui/toasts/defaultToast"))
 
@@ -13,7 +13,15 @@ export default function LoginForm() {
     })
     const data = useRef<SubmitData>({ username: "", password: "", email: "" })
 
-    return <BaseForm handleSubmit={handleSubmit} data={data} setIsComplete={setIsLogined} path={PathsAPI.LOGIN}>
+    return <BaseForm 
+        loadingMessage="Вход в аккаунт..."
+        successMessage="Вы вошли в аккаунт"
+        successNavigate={Paths.HOME}
+        handleSubmit={handleSubmit}
+        data={data}
+        setIsComplete={setIsLogined}
+        path={PathsAPI.LOGIN}
+    >
         <FormInput message={errors.username?.message} { ...register("username", { 
                 required: "вход без логина не поддерживается",
             }) } placeholder="Логин" />

@@ -1,8 +1,8 @@
 import { useLocation } from "react-router"
-import { MenuItem, MenuItemProps } from "./MenuItem"
+import { useTranslation } from "react-i18next"
+import { MenuItem, type MenuItemProps } from "./MenuItem"
 import { menuItems } from "./menuItems"
 import styles from "./menu.module.css"
-import { useTranslation } from "react-i18next"
 
 
 export default function Menu() {
