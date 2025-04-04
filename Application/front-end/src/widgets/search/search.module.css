@@ -50,19 +50,20 @@ header {
 }
 
 #mobile_search_button {
-  min-width: 2rem;
-  min-height: 1.5rem;
-  width: var(--search-button-width);
-  height: var(--search-height);
+  background: transparent;
+  border: 0;
+  display: block;
+  height: auto;
+  width: min-content;
 }
 
 
-@media (min-width: 750px) {
+@media (min-width: 800px) {
   #mobile_search_button {
     display: none;
   }
 }
-@media (max-width: 750px) {
+@media (max-width: 800px) {
   #search {
     display: none;
   }

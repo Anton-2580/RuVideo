@@ -6,12 +6,13 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken"
 axios.defaults.xsrfCookieName = "csrftoken"
 
 
-export enum Query {
-    GET = "GET",
-    POST = "POST",
-    PUT = "PUT",
-    PATCH = "PATCH",
-}
+export const Query = {
+    GET: "GET",
+    POST: "POST",
+    PUT: "PUT",
+    PATCH: "PATCH",
+} as const
+export type Query = (typeof Query)[keyof typeof Query]
 
 export async function fetchData(path: string, signal: AbortSignal | undefined, query: Query = Query.GET, postData?: Object): Promise<any> {
     switch(query) {

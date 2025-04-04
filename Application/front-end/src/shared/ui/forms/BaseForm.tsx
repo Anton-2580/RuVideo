@@ -1,9 +1,9 @@
 import type { DetailedHTMLProps, FormHTMLAttributes, RefObject } from "react"
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useNavigate } from "react-router"
 import { UseFormHandleSubmit } from "react-hook-form"
 import type { Id, TypeOptions } from "react-toastify"
-import { toast } from "@/shared/util/lazyLibraries/toastify"
+import { setToast, toast } from "@/shared/util/lazyLibraries/toastify"
 import type { Paths, PathsAPI } from "@/shared"
 import { Query, useOrdinaryQuery } from "@/shared/api"
 import styles from "./forms.module.css" 
@@ -17,7 +17,7 @@ type BaseFormProps<T extends Object> = DetailedHTMLProps<FormHTMLAttributes<HTML
     successNavigate: Paths
     
     setIsComplete: (value: boolean) => void
-    handleSubmit: UseFormHandleSubmit<T, undefined>
+    handleSubmit: UseFormHandleSubmit<T, any>
 }
 
 
@@ -32,25 +32,18 @@ export function BaseForm<T extends Object>({
     className,
     ...props
 }: BaseFormProps<T>) {
+    if (toast === undefined) {
+        setToast()
+    }
+
     const navigate = useNavigate()
     const { refetch, error, isLoading, isSuccess } = useOrdinaryQuery(path, Query.POST, data.current, {
         enabled: Object.values(data.current).some(Boolean),
     })
-    const submitCount = useRef(0)
-    
-    function sendMessage(
-        numberOfSubmit: RefObject<number>,
-        value: any,
-        body: () => void
-    ): void {
-        if (submitCount.current !== numberOfSubmit.current && value) {
-            body()
-            numberOfSubmit.current += 1
-        }
-    }
+
 
     const compliteSend = (type: TypeOptions, message?: string) => {
-        toast.update(loadingId.current, {
+        toast?.update(loadingId.current, {
             render: message,
             type,
             isLoading: false,
@@ -60,22 +53,31 @@ export function BaseForm<T extends Object>({
     }
 
     const loadingId = useRef<Id>(-1)
-    const loadingNumberOfSubmit = useRef(0)
-    const compliteNumberOfSubmit = useRef(0)
 
-    sendMessage(compliteNumberOfSubmit, error, () => compliteSend("error", error?.message))
-    sendMessage(loadingNumberOfSubmit, isLoading, () => {loadingId.current = toast.loading(loadingMessage)})
-    sendMessage(compliteNumberOfSubmit, isSuccess, () => {
-        compliteSend("success", successMessage)
-        setIsComplete(true)
-        navigate(successNavigate)
-    })
+    useEffect(() => {
+        if (error) {
+            compliteSend("error", error?.message)
+        }
+    }, [error])
+    useEffect(() => {
+        if (isLoading && toast) {
+            loadingId.current = toast.loading(loadingMessage)
+        }
+    }, [isLoading])
+    useEffect(() => {
+        if (isSuccess) {
+            compliteSend("success", successMessage)
+            setIsComplete(true)
+            navigate(successNavigate)
+        }
+    }, [isSuccess])
 
-    const onSubmit = (newData: T) => {if (loadingId.current == -1) {
-        data.current = newData
-        submitCount.current += 1
-        refetch()
-    }}
+    const onSubmit = (newData: T) => {
+        if (loadingId.current == -1) {
+            data.current = newData
+            refetch()
+        }
+    }
 
     return <form onSubmit={handleSubmit(onSubmit)} {...props} className={styles.form +" "+ className}></form>
 }

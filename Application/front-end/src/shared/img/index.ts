@@ -10,6 +10,7 @@ import likes from "./likes.png"
 import listen from "./listen.png"
 import playlists from "./playlists.png"
 import search from "./search.png"
+import search_black from "./search_black.png"
 import see_later from "./see_later.png"
 import settings from "./settings.png"
 import shorts from "./shorts.svg"
@@ -32,6 +33,7 @@ export {
     listen,
     playlists,
     search,
+    search_black,
     see_later,
     settings,
     shorts,

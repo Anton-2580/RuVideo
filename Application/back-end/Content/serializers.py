@@ -46,6 +46,10 @@ class VideoSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class VideoWithChannelsSerializer(VideoSerializer):
+    channel = ChannelSerializer(read_only=True)
+
+
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment

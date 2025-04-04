@@ -69,10 +69,10 @@ export function MenuItem({ i18nkey, ...props }: MenuItemProps) {
     return (<LazyMotion features={domAnimation} >
         <motion.li animate={style} initial={full_menu_item_style} className={ itemStyle } style={ props.style } >
             <Link to={ props.to } className={ styles.menu_item_image }>
-                <img src={ props.image } alt={ props.alt ?? "MenuItem" } style={{
+                <img loading="lazy" src={ props.image } alt={ props.alt ?? "MenuItem" } style={{
                     width: image_width,
                     marginBottom: "-3px",
-                }} className={ColorClassNames.defaultImage}/>
+                }} className={ColorClassNames.defaultImage} />
             </Link>
             <Link to={ props.to } style={{ paddingInlineStart: "5px", scale: "var(--scale)", opacity: "var(--opacity)", }} >
                 <p>{ t(i18nkey) }</p></Link>

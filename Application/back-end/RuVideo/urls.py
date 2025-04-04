@@ -27,6 +27,7 @@ from Content.views import *
 router = routers.SimpleRouter()
 router.register("Channel", ChannelViewSet)
 router.register("Video", VideoViewSet)
+router.register("VideoWithChannels", VideoWithChannelsViewSet, basename="video_with_channels")
 router.register("Comment", CommentViewSet)
 router.register("Hashtag", HashtagViewSet)
 router.register("Rating", RatingViewSet)

@@ -41,7 +41,7 @@
   }
 }
 
-@media(max-width: 500px) {
+@media(max-width: 800px) {
   .groups, #menu {
     display: none;
   }

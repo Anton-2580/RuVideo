@@ -62,6 +62,7 @@ footer {
 /* -------------------- */
 
 header {
+  z-index: 100;
   background-color: Window;
   position: fixed;
   display: flex;

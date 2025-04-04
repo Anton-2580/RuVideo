@@ -1,14 +1,14 @@
 import type { ChannelInfo } from "./ChannelInfo"
 
 
-interface VideoInfo {
+export interface VideoInfo {
+    id: number
+    slug: string
     video: string
-    dataTime: string
+    dataTime: number
     photo: string | null
     title: string
     description: string
     channel: ChannelInfo
     browsing: number
 }
-
-export type { VideoInfo };

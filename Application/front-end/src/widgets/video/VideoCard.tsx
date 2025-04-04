@@ -7,7 +7,9 @@ import type { VideoInfo } from "@/entities"
 import { NavigateVideoButton, NavigateTextButton, useOnClickOnside } from "@/shared"
 import { isEquals } from "@/shared/util/functions"
 import { domAnimation, LazyMotion, motion } from "@/shared/util/lazyLibraries/motion"
+
 import styles from "./video.module.css"
+import { default_user } from "@/shared/img"
 
 
 export type VideoCardProps = PropsWithChildren & {
@@ -57,10 +59,10 @@ export default function VideoCard({ videoInfo, ...props }: VideoCardProps) {
             backgroundColor: showState.clickCard ? `var(${ColorVars.videoHoverColor})` : undefined,
         }}
     >
-        <NavigateVideoButton to={videoInfo.video} videos={[videoInfo.video]} poster={videoInfo.photo ?? undefined} />
+        <NavigateVideoButton to={videoInfo.slug} videos={[videoInfo.video]} poster={videoInfo.photo ?? undefined} />
         
         <div className={styles.video_card_title} >
-            <NavigateTextButton to={videoInfo.video} text={ videoInfo.title } />
+            <NavigateTextButton to={videoInfo.slug} text={ videoInfo.title } />
             <motion.ul className={styles.video_card_more_info_button} ref={moreInfoButtonRef}
                 whileTap={{
                     scale: 0.9,
@@ -81,7 +83,7 @@ export default function VideoCard({ videoInfo, ...props }: VideoCardProps) {
         </div>
 
         <Link to={videoInfo.channel.name} className={styles.video_card_channel}>
-            <img alt="channel image" src={videoInfo.channel.photo ?? ""} 
+            <img alt="channel image" loading="lazy" src={videoInfo.channel.photo ?? default_user} 
                 style={{
                     borderRadius: "50%",
                     height: "2rem",
@@ -89,7 +91,7 @@ export default function VideoCard({ videoInfo, ...props }: VideoCardProps) {
             <p>{videoInfo.channel.name} </p>
         </Link>
 
-        <Link to={videoInfo.video} className={ styles.video_card_info }>
+        <Link to={videoInfo.slug} className={ styles.video_card_info }>
             <p>{ t("browsing", { count: videoInfo.browsing }) }</p>
             <p>{ t("date.date_ago", { date: videoInfo.dataTime }) }</p>
         </Link>
@@ -97,7 +99,7 @@ export default function VideoCard({ videoInfo, ...props }: VideoCardProps) {
 }
 
 
-function VideoLoader() {
+export function VideoLoader() {
     return (
     <div className={ styles.ghost_video_card } >
         <div className={styles.ghost_video} />
