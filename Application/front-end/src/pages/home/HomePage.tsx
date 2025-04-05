@@ -1,33 +1,49 @@
-import { useEffect, useRef, useState } from "react"
-import { getDataObjects, PathsAPI } from "@/shared"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { getDataObjects, PathsAPI, usePagination } from "@/shared"
 import { VideoList } from "@/widgets/"
 import type { VideoInfo } from "@/entities"
-import type { Result } from "@/shared/"
+import type { ApiResultType, Result } from "@/shared/"
 import { ResultType } from "@/shared/"
 
 
 export default function HomePage() {
-    const count = 9
-    const videos = useRef(0)
-    const [results, setResults] = useState<Result<VideoInfo>[]>([])
-    const { data, isLoading, isSuccess } = getDataObjects(PathsAPI.VIDEO_WITH_CHANNELS, videos.current, count)
-    const lastData = useRef<typeof data>(undefined)
-
-    useEffect(() => {
-        if (isSuccess) {
-            if (lastData.current == data) return
-            
-            lastData.current = data
-            videos.current += count
-            setResults(prev => ([ ...prev, { type: ResultType.VIDEOS, data } as Result<VideoInfo> ]))
-        }
-    }, [isSuccess])
+    const countVideos = 9
+    const { results, isLoading } = elementPagination<VideoInfo>(PathsAPI.VIDEO_WITH_CHANNELS, ResultType.VIDEOS, countVideos)
 
     return (<main>
         {
             results.map((result, index) => (
-               <VideoList result={result} isLoading={isLoading} count={count} key={index}/>
+               <VideoList result={result} isLoading={isLoading} count={countVideos} key={index}/>
             ))
         }
     </main>)
+}
+
+function elementPagination<T>(
+    path: PathsAPI,
+    resultType: ResultType,
+    count: number = 9,
+) {
+    const step = useRef(0)
+    const [results, setResults] = useState<Result<T>[]>([])
+    const { data, isLoading, isSuccess } = getDataObjects(path, step.current, count)
+    
+    const typedData = data as ApiResultType<T> | undefined
+
+    useEffect(() => {
+        if (typedData && isSuccess) {
+            setResults(prev => ([ ...prev, { type: resultType, data: typedData } ]))
+        }
+    }, [isSuccess])
+
+    usePagination(() => {
+        if (document.documentElement.scrollHeight - (document.documentElement.scrollTop + window.innerHeight) < 100 && typedData?.next) {
+            step.current += count
+        }
+    })
+
+    return {
+        results,
+        isLoading,
+    }
 }
