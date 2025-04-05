@@ -1,7 +1,12 @@
 import { lazy, useRef } from "react"
+import { Link } from "react-router"
 import { useForm } from "react-hook-form"
+import { useTranslation } from "react-i18next"
+import { Logo } from "@/widgets/logo"
 import { BaseForm, EmailInput, FormInput, PasswordInput, Paths, PathsAPI } from "@/shared"
 import { type SubmitData, useUserStore } from "@/entities"
+import AlternativesAuth from "./AlternativesAuth"
+import styles from "@/shared/ui/forms/forms.module.css"
 
 const DefaultToast = lazy(() => import("@/shared/ui/toasts/defaultToast"))
 
@@ -13,25 +18,41 @@ export default function LoginForm() {
     })
     const data = useRef<SubmitData>({ username: "", password: "", email: "" })
 
+    const { t } = useTranslation()
+
     return <BaseForm 
-        loadingMessage="Вход в аккаунт..."
-        successMessage="Вы вошли в аккаунт"
+        loadingMessage={ t("signInLoading") }
+        successMessage={ t("signInSuccess") }
         successNavigate={Paths.HOME}
         handleSubmit={handleSubmit}
         data={data}
         setIsComplete={setIsLogined}
         path={PathsAPI.LOGIN}
+        className={styles.standart_form}
     >
+        <Logo endLogoProps={{style: { filter: "invert(1)" } }} />
+        <h3 style={{ fontSize: "1.5em" }}>{ t("loginRegistration.signInTitle") }</h3>
+
         <FormInput message={errors.username?.message} { ...register("username", { 
-                required: "вход без логина не поддерживается",
-            }) } placeholder="Логин" />
+                required: t("loginRegistration.loginRequired"),
+        }) } className={styles.standart_input} >
+            <h6>{ t("loginRegistration.login") }: </h6>
+        </FormInput>
         <PasswordInput message={errors.password?.message} { ...register("password", { 
-                required: "вход без пароля не поддерживается",
-            }) } />
-        <EmailInput register={register} field="email" message={errors.email?.message} />
+                required: t("loginRegistration.passwordRequired"),
+        }) } className={styles.standart_input} bottomChildren={ 
+            <Link to={Paths.PASSWORD_RECOVERY} className={styles.password_link} >{ t("loginRegistration.forgotPassword") }</Link> 
+        }>
+            <h6>{ t("loginRegistration.password") }</h6>
+        </PasswordInput>
+        <EmailInput register={register} field="email" message={errors.email?.message} className={styles.standart_input} >
+            <h6>{ t("loginRegistration.email") }: </h6>
+        </EmailInput>
 
         <DefaultToast />
 
-        <FormInput type="submit" value="Войти"/>
+        <FormInput type="submit" value={ t("loginRegistration.signIn") } className={styles.standart_button} />
+
+        <AlternativesAuth />
     </BaseForm>
 }

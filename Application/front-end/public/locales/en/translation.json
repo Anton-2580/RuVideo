@@ -1,10 +1,36 @@
 {
+    "sign_in": "Sign in",
+    "sign_up": "Sign up",
     "browsing_one": "{{count}} view",
     "browsing_many": "{{count}} views",
+
+    "loginRegistration": {
+        "signInTitle": "Entrance",
+        "signIn": "Sign in",
+        "signInSuccess": "Successfully signed in",
+        "signInLoading": "Signing in...",
+
+        "signUpTitle": "Registration",
+        "signUp": "Sign up",
+        "signUpSuccess": "Successfully registered",
+        "signUpLoading": "Registration...",
+
+        "or": "or",
+
+        "login": "Login",
+        "password": "Password",
+        "forgotPassword": "Forgot password?",
+        "email": "Email",
+
+        "loginRequired": "Enter login",
+        "passwordRequired": "Enter password",
+        "emailRequired": "Enter email"
+    },
 
     "date": {
         "date_ago": "{{date, DATE_AGO}}"
     },
+    
     "menu": {
         "titles": {
             "you": "You",
@@ -18,6 +44,7 @@
             "history": "History",
             "your_videos": "Your videos",
             "see_later": "See later",
+            "you": "You",
             "liked": "Liked"
         }
     }

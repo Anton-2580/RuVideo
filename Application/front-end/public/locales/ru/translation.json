@@ -1,7 +1,32 @@
 {
+    "sign_in": "Войти",
+    "sign_up": "Зарегистрироваться",
     "browsing_one": "{{count}} просмотр",
     "browsing_many": "{{count}} просмотров",
     "browsing_few": "{{count}} просмотра",
+
+    
+    "loginRegistration": {
+        "signInTitle": "Вход",
+        "signIn": "Войти",
+        "signInSuccess": "Успешно вошли",
+        "signInLoading": "Вход...",
+
+        "signUpTitle": "Регистрация",
+        "signUp": "Зарегистрироваться",
+        "signUpSuccess": "Успешно зарегистрировались",
+        "signUpLoading": "Регистрация...",
+
+        "or": "или",
+
+        "login": "Логин",
+        "password": "Пароль",
+        "forgotPassword": "Забыли пароль?",
+
+        "loginRequired": "Введите логин",
+        "passwordRequired": "Введите пароль",
+        "emailRequired": "Введите email"
+    },
 
     "menu": {
         "titles": {
@@ -16,6 +41,7 @@
             "history": "История",
             "your_videos": "Ваши видео",
             "see_later": "Смотреть позже",
+            "you": "Вы",
             "liked": "Понравившиеся"
         }
     }

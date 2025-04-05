@@ -6,10 +6,11 @@ import styles from "./inputs.module.css"
 
 type PasswordInputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
     message?: string
+    bottomChildren?: React.ReactNode
 }
 
 
-export function PasswordInput({message ,...props}: PasswordInputProps) {
+export function PasswordInput({message, children, bottomChildren, className, ...props}: PasswordInputProps) {
     const [type, setType] = useState<"password" | "text">("password")
     const passwordPupilRef = useRef<HTMLDivElement>(null)
 
@@ -45,8 +46,10 @@ export function PasswordInput({message ,...props}: PasswordInputProps) {
         return () => {document.removeEventListener("mousemove", updateEyePosition)}
     }, [])
 
-    return <><div className={styles.password_container}>
-            <input className={ styles.input } type={ type } placeholder="Пароль" { ...props }/>
+    return <div className={styles.input_container}>
+        { children }
+        <div className={styles.password_container}>
+            <input className={ styles.input + ' ' + className } type={ type } { ...props }/>
             <div className={styles.password_eye} typeof={ type } onClick={ () => setType(prev => {
                 if (prev == "text")
                     return "password"
@@ -55,6 +58,7 @@ export function PasswordInput({message ,...props}: PasswordInputProps) {
                 <div ref={passwordPupilRef} className={styles.password_pupil} ><div /></div>
             </div>
         </div>
+        { bottomChildren }
         {message && <p>{message}</p>}
-    </>
+    </div>
 }

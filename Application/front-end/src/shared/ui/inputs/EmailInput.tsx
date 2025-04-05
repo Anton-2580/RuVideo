@@ -3,7 +3,7 @@ import { RegistredFormInput, type RegistredFormInputProps } from "./RegistredFor
 
 
 export function EmailInput<T extends FieldValues>({options, ...props}: RegistredFormInputProps<T>) {
-    return <RegistredFormInput placeholder="Email*" type="email" {...props}
+    return <RegistredFormInput type="email" {...props}
         options={{
             pattern: {
                 value: /^.+\@.+\..+$/,

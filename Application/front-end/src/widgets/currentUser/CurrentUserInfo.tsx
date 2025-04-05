@@ -18,7 +18,7 @@ export function CurrentUserInfo({ isVisible, acc_image, loading, data }: Current
     
     return (<div id={ styles.current_user_container } className="block" >
         <div className={ styles.current_user_info } >
-            <img src={ acc_image } alt="картинка канала" loading={loading} style={{width: "3rem"}}/>
+            <img loading={loading} src={ acc_image } alt="картинка канала" style={{width: "3rem"}}/>
             <div>
                 <p>{ data.username }</p>
                 <NavigateTextButton to={Paths.CHANNEL +"/"+ data.pk} text="Посмотреть канал" />

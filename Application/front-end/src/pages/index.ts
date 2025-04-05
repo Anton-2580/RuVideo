@@ -8,6 +8,7 @@ const RegistrationPage = lazy(() => import("@/pages/loginRegistration/Registrati
 const ShortsPage = lazy(() => import("@/pages/shorts/ShortsPage"))
 const SubscribesPage = lazy(() => import("@/pages/subscribes/SubscribesPage"))
 const TranslationsPage = lazy(() => import("@/pages/translations/TranslationsPage"))
+const YouPage = lazy(() => import("@/pages/you/YouPage"))
 
 export {
     Base,
@@ -17,4 +18,5 @@ export {
     ShortsPage,
     SubscribesPage,
     TranslationsPage,
+    YouPage,
 }

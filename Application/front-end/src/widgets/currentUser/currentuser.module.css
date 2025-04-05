@@ -1,15 +1,50 @@
+#current_user_container, #auth_container {
+  border-top-right-radius: 4px;
+  position: absolute;
+  right: calc(var(--parent-button-width) / 2 + var(--parent-container-right));
+  width: max-content;
+  padding: 1rem;
+}
+
+#auth_register_btn {
+  --parent-button-width: 3rem;
+  --parent-container-right: 0.4rem;
+
+  img {
+    width: var(--parent-button-width);
+  }
+
+  #auth_container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% + 12px);
+    justify-content: space-evenly;
+
+    #login_button *, #register_button * {
+      border-radius: 20px;
+      padding: 0.5rem;
+      cursor: pointer;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    #login_button * {
+      background-color: #4db37d;
+    }
+
+    #register_button * {
+      background-color: black;
+      color: white;
+    }
+  }
+}
+
 #current_user {
   position: relative;
-  --user-button-width: 3rem;
-  --user-container-right: 0.4rem;
+  --parent-button-width: 3rem;
+  --parent-container-right: 0.4rem;
 
   #current_user_container {
-    border-top-right-radius: 4px;
-    position: absolute;
-    right: calc(var(--user-button-width) / 2 + var(--user-container-right));
-    width: max-content;
-    padding: 1rem;
-
     div {
       --div-padding: 0.2rem;
       padding-top: var(--div-padding);
@@ -20,7 +55,7 @@
   #current_user_button {
     border: 2px solid currentColor;
     border-radius: 100%;
-    width: var(--user-button-width);
+    width: var(--parent-button-width);
     height: 3rem;
 
     background-color: currentColor;

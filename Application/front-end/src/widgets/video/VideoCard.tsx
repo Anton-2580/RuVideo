@@ -4,7 +4,7 @@ import { Link } from "react-router"
 import { useTranslation } from "react-i18next"
 import { ColorVars } from "@/app/styles/ColorVars"
 import type { VideoInfo } from "@/entities"
-import { NavigateVideoButton, NavigateTextButton, useOnClickOnside } from "@/shared"
+import { NavigateVideoButton, NavigateTextButton, useOnClickOnside, Paths } from "@/shared"
 import { isEquals } from "@/shared/util/functions"
 import { domAnimation, LazyMotion, motion } from "@/shared/util/lazyLibraries/motion"
 
@@ -53,16 +53,18 @@ export default function VideoCard({ videoInfo, ...props }: VideoCardProps) {
         }
     }, [moreInfoRef])
 
+    const slug = Paths.VIDEOS + videoInfo.slug
+
     return (<LazyMotion features={domAnimation}><motion.article className={styles.video_card} {...props} ref={lazyMotionRef}
         whileTap={{ 
             scale: showState.clickCard ? 0.95 : undefined,
             backgroundColor: showState.clickCard ? `var(${ColorVars.videoHoverColor})` : undefined,
         }}
     >
-        <NavigateVideoButton to={videoInfo.slug} videos={[videoInfo.video]} poster={videoInfo.photo ?? undefined} />
+        <NavigateVideoButton to={slug} videos={[videoInfo.video]} poster={videoInfo.photo ?? undefined} />
         
         <div className={styles.video_card_title} >
-            <NavigateTextButton to={videoInfo.slug} text={ videoInfo.title } />
+            <NavigateTextButton to={slug} text={ videoInfo.title } />
             <motion.ul className={styles.video_card_more_info_button} ref={moreInfoButtonRef}
                 whileTap={{
                     scale: 0.9,
@@ -91,7 +93,7 @@ export default function VideoCard({ videoInfo, ...props }: VideoCardProps) {
             <p>{videoInfo.channel.name} </p>
         </Link>
 
-        <Link to={videoInfo.slug} className={ styles.video_card_info }>
+        <Link to={slug} className={ styles.video_card_info }>
             <p>{ t("browsing", { count: videoInfo.browsing }) }</p>
             <p>{ t("date.date_ago", { date: videoInfo.dataTime }) }</p>
         </Link>

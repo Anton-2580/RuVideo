@@ -75,7 +75,8 @@ export function MenuItem({ i18nkey, ...props }: MenuItemProps) {
                 }} className={ColorClassNames.defaultImage} />
             </Link>
             <Link to={ props.to } style={{ paddingInlineStart: "5px", scale: "var(--scale)", opacity: "var(--opacity)", }} >
-                <p>{ t(i18nkey) }</p></Link>
+                <p>{ t(i18nkey) }</p>
+            </Link>
         </motion.li>
     </LazyMotion>)
 }

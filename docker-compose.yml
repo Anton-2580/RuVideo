@@ -1,5 +1,6 @@
 services:
   back-end:
+    restart: always
     build:
       context: ./Application/back-end/
       dockerfile: Dockerfile

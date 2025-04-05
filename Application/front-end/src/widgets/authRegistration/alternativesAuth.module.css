@@ -1,0 +1,15 @@
+#or_block {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 2rem;
+  
+  hr {
+    flex-grow: 0.4;
+  }
+}
+
+#alternatives_auth {
+  display: flex;
+}

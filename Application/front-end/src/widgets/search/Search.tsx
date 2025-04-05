@@ -2,11 +2,14 @@ import { useEffect, useRef } from "react"
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition"
 import { useSearch } from "@/features"
 import { search as searchImg, listen } from "@/shared/img"
-import { toast } from "@/shared/util/lazyLibraries/toastify"
+import { toast, setToast } from "@/shared/util/lazyLibraries/toastify"
 import styles from "./search.module.css"
 
 
 export default function Search() {
+    if (toast === undefined)
+        setToast()
+
     const search = useSearch()
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -15,9 +18,9 @@ export default function Search() {
 
     function dictaphone() {
         if (!browserSupportsSpeechRecognition)
-            return toast.info("Браузер не поддерживает микрофон")
+            return toast?.info("Браузер не поддерживает микрофон")
         if (!isMicrophoneAvailable)
-            return toast.info("Микрофон не доступен")
+            return toast?.info("Микрофон не доступен")
 
 
         if (listening)

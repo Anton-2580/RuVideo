@@ -1,6 +1,10 @@
 import { ColorClassNames } from "@/app/styles/ColorVars"
 import { Images, NavigateImageButton, Paths } from "@/shared"
-import { ButtonMenu, Logo, Search, CurrentUserButton, MobileSearchButton } from "@/widgets"
+import { ButtonMenu } from "@/widgets/menu"
+import { Logo } from "@/widgets/logo"
+import { CurrentUserButton } from "@/widgets/currentUser"
+import { MobileSearchButton } from "@/widgets/search"
+import { Search } from "@/widgets/search"
 import styles from "./contentHeader.module.css"
 
 

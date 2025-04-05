@@ -9,6 +9,8 @@ import {
     your_videos,
     see_later,
     likes,
+    standard_default_user,
+    add,
 } from "@/shared/img"
 
 
@@ -70,3 +72,35 @@ export const menuItems: MenuItems = {
         ],
     ]
 }
+
+
+export const mobileMenuItems: (MenuItemProps & {
+    forLogined?: boolean,
+})[] = [
+    {
+        i18nkey: "menu.items.home",
+        image: home,
+        to: Paths.HOME,
+    },
+    {
+        i18nkey: "menu.items.shorts",
+        image: shorts,
+        to: Paths.SHORTS,
+    },
+    {
+        i18nkey: "",
+        image: add,
+        to: Paths.ADD_CONTENT,
+        forLogined: true,
+    },
+    {
+        i18nkey: "menu.items.subscriptions",
+        image: subscribes,
+        to: Paths.SUBSCRIBES,
+    },
+    {
+        i18nkey: "menu.items.you",
+        image: standard_default_user,
+        to: Paths.YOU,
+    },
+]

@@ -1,12 +1,14 @@
-.small_logo {
+.logo {
   min-height: 2rem;
   height: 3vw;
+  -webkit-user-select: none;
+  user-select: none;
 }
-.big_logo {
-  min-height: 2rem;
-  height: 4vw;
+@media(prefers-color-scheme: light) {
+  .logo_white {
+    filter: invert();
+  }
 }
-
 
 #logo {
   display: flex;
@@ -17,11 +19,5 @@
   img {
     -webkit-user-select: none;
     user-select: none;
-  }
-}
-
-@media(max-width: 900px) {
-  .small_logo {
-    display: none;
   }
 }

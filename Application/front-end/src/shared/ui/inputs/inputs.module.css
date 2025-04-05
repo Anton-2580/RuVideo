@@ -1,7 +1,12 @@
+.input_container {
+  width: 80%;
+}
+
 .input {
   border-radius: 10px;
   border-color: mediumseagreen;
   height: 2rem;
+  width: 100%;
 
   &:focus-visible {
     outline-color: chartreuse; 
@@ -17,6 +22,7 @@
 .password_container {
   --eye-color: black;
   --width-password-eye: 30px;
+  --translate-eye: -4px;
 
   cursor: pointer;
   display: flex;
@@ -24,8 +30,8 @@
   height: max-content;
 
   .input {
-    padding-right: calc(var(--width-password-eye) + 2px);
-    width: calc(100% - var(--width-password-eye));
+    padding-right: calc(var(--width-password-eye) - var(--translate-eye) + 5px);
+    width: calc(100% - var(--width-password-eye) + var(--translate-eye));
   }
 }
 
@@ -35,6 +41,7 @@
   width: var(--width-password-eye);
   height: 22.5px;
 
+  transform: translateX(var(--translate-eye));
   margin-left: calc(-1*(var(--width-password-eye) + 1px + var(--border-eye-width)));
   border: var(--border-eye-width) solid var(--eye-color);
   border-radius: 100%;
@@ -43,6 +50,7 @@
   justify-items: center;
   align-content: center;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .password_pupil {

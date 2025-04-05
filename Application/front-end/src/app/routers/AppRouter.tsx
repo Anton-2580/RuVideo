@@ -1,15 +1,23 @@
 import { Suspense } from "react"
 import { createBrowserRouter, RouterProvider } from "react-router"
 import { Paths } from "@/shared"
-import { ContentHeader, Menu } from "@/widgets"
-import { Base, HomePage, LoginPage, RegistrationPage, ShortsPage, SubscribesPage, TranslationsPage } from "@/pages"
+import { ContentHeader, Menu, MobileMenu } from "@/widgets"
+import { Base, HomePage, LoginPage, RegistrationPage, ShortsPage, SubscribesPage, TranslationsPage,
+ 		 YouPage,
+} from "@/pages"
 
 
 
 
 const router = createBrowserRouter([
 	{
-		element: <Base Header={() => <ContentHeader />} Wrapper={() => <Suspense><Menu /></Suspense>} />,
+		element: <Base 
+			Header={() => <ContentHeader />} 
+			Wrapper={() => (<>
+				<Suspense><Menu /></Suspense>
+				<Suspense><MobileMenu /></Suspense>
+			</>)} 
+		/>,
 
 		children: [
 			{
@@ -29,6 +37,10 @@ const router = createBrowserRouter([
 				element: <Suspense><TranslationsPage /></Suspense>
 			},
 		],
+	},
+	{
+		path: Paths.YOU,
+		element: <Suspense><YouPage /></Suspense>
 	},
 	{
 		path: Paths.LOGIN,

@@ -1,7 +1,7 @@
 import type { DetailedHTMLProps, FormHTMLAttributes, RefObject } from "react"
 import { useEffect, useRef } from "react"
 import { useNavigate } from "react-router"
-import { UseFormHandleSubmit } from "react-hook-form"
+import type { UseFormHandleSubmit } from "react-hook-form"
 import type { Id, TypeOptions } from "react-toastify"
 import { setToast, toast } from "@/shared/util/lazyLibraries/toastify"
 import type { Paths, PathsAPI } from "@/shared"
@@ -57,6 +57,17 @@ export function BaseForm<T extends Object>({
     useEffect(() => {
         if (error) {
             compliteSend("error", error?.message)
+
+            const data = error?.response?.data as Object
+            
+            const errorString = Object.keys(data).reduce((acc, value) => {
+                if (!data.hasOwnProperty(value))
+                    return acc
+
+                return acc + "\n" + value + ": " + data[value].join(" ")
+            }, '')
+
+            toast?.info(errorString)
         }
     }, [error])
     useEffect(() => {

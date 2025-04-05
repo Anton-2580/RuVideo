@@ -8,9 +8,10 @@ export type FormInputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElem
 }
 
 
-export function FormInput({message, children, ...props}: FormInputProps) {
-    return (<>
-        <input className={styles.input} {...props}/>{ children }
+export function FormInput({message, children, className, ...props}: FormInputProps) {
+    return (<div className={styles.input_container}>
+        { children }
+        <input className={styles.input + ' ' + className} {...props}/>
         {message && <p>{message}</p>}
-    </>)
+    </div>)
 }
