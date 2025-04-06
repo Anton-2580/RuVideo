@@ -53,7 +53,8 @@ export default function VideoCard({ videoInfo, ...props }: VideoCardProps) {
         }
     }, [moreInfoRef])
 
-    const slug = Paths.VIDEOS + videoInfo.slug
+    const slug = Paths.VIDEOS + videoInfo.slug + '/'
+    const channel_slug = `${Paths.CHANNEL}${videoInfo.channel.id}-${videoInfo.channel.name}/` 
 
     return (<LazyMotion features={domAnimation}><motion.article className={styles.video_card} {...props} ref={lazyMotionRef}
         whileTap={{ 

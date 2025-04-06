@@ -31,6 +31,25 @@
         "date_ago": "{{date, DATE_AGO}}"
     },
     
+    "player": {
+        "play": "play",
+        "pause": "pause",
+        "muted": "mute",
+        "unmuted": "unmute",
+        "fullscreen": "fullscreen",
+        "unfullscreen": "unfullscreen",
+        "quality": "quality",
+        "speed": "speed",
+        "subtitles": "subtitles",
+        "volume": "volume",
+        "next": "next",
+        "previous": "previous",
+        "representationAuto": "Auto",
+        "subtitlesDoOff": "Turn off subtitles",
+        "subtitlesOff": "off",
+        "subtitlesNone": "None"
+    },
+    
     "menu": {
         "titles": {
             "you": "You",

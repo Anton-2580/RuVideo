@@ -28,6 +28,25 @@
         "emailRequired": "Введите email"
     },
 
+    "player": {
+        "play": "Воспроизвести",
+        "pause": "Пауза",
+        "muted": "Выключить звук",
+        "unmuted": "Включить звук",
+        "fullscreen": "Полноэкранный режим",
+        "unfullscreen": "Выход из полноэкранного режима",
+        "quality": "Качество",
+        "speed": "Скорость",
+        "subtitles": "Субтитры",
+        "volume": "Громкость",
+        "next": "Следующий",
+        "previous": "Предыдущий",
+        "representationAuto": "Авто",
+        "subtitlesOff": "Выкл.",
+        "subtitlesDoOff": "Выключить субтитры",
+        "subtitlesNone": "Нет субтитров"
+    },
+
     "menu": {
         "titles": {
             "you": "Вы",

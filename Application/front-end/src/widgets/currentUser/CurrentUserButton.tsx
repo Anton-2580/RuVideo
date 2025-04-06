@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import type { UserData } from "@/shared"
 import { useOrdinaryQuery, PathsAPI, NavigateTextButton, Paths, Images } from "@/shared"
@@ -11,10 +11,20 @@ import { getIsMobileVersion } from "@/shared/util/functions"
 export default function CurrentUserButton() {
     const [isVisible, setIsVisible] = useState(false)
     const isLogined = useUserStore(state => state.isLogined)
-    
+    const setUserState = useUserStore(state => state.setState)
+
     const { isLoading, isSuccess, data } = useOrdinaryQuery<UserData>(PathsAPI.USER_DATA, undefined, undefined, {
         enabled: !!isLogined,
     })
+    
+    useEffect(() => {
+        if (data?.likest_format) {
+            setUserState({
+                likestFormat: data?.likest_format,
+            })
+        }
+    }, [data])
+
     
     if (!isLogined || !isSuccess)
         return <AuthRegisterButton />

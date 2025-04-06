@@ -5,4 +5,5 @@ export type UserData = {
     first_name: string
     last_name: string
     photo: string | null
+    likest_format: string
 }

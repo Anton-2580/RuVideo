@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router"
 import { Paths } from "@/shared"
 import { ContentHeader, Menu, MobileMenu } from "@/widgets"
 import { Base, HomePage, LoginPage, RegistrationPage, ShortsPage, SubscribesPage, TranslationsPage,
- 		 YouPage,
+ 		 YouPage, VideoPage,
 } from "@/pages"
 
 
@@ -37,6 +37,10 @@ const router = createBrowserRouter([
 				element: <Suspense><TranslationsPage /></Suspense>
 			},
 		],
+	},
+	{
+		path: Paths.VIDEOS + ":slug/",
+		element: <Suspense><VideoPage /></Suspense>
 	},
 	{
 		path: Paths.YOU,

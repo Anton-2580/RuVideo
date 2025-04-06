@@ -55,6 +55,11 @@ header {
   display: block;
   height: auto;
   width: min-content;
+
+  img {
+    height: 2vw;
+    min-height: 1.5rem;
+  }
 }
 
 

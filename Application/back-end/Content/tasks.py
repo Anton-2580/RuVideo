@@ -23,8 +23,36 @@ def create_video_files(video_path):
     path = path.rsplit("/", maxsplit=1)[0]
     file_name = file_name.rsplit(".", maxsplit=1)[0]
 
-    subprocess.run(["mkdir", f"{path}/mpd", f"{path}/m3u8"], stdout=subprocess.DEVNULL)
-    subprocess.run(["mkdir", f"{path}/mpd/{file_name}", f"{path}/m3u8/{file_name}"], stdout=subprocess.DEVNULL)
+    resolutions = (
+        "256x144",
+        "426x240",
+        "640x360",
+        "852x480",
+        "1280x720",
+        "1920x1080",
+    )
+    s_v = []
+    for index, i in enumerate(resolutions):
+        s_v.append(f"-s:v:{index}")
+        s_v.append(i)
 
-    subprocess.run(["ffmpeg", "-i", video_path, f"{path}/mpd/{file_name}/{file_name}.mpd"], stdout=subprocess.DEVNULL)
-    subprocess.run(["ffmpeg", "-i", video_path, f"{path}/m3u8/{file_name}/{file_name}.m3u8"], stdout=subprocess.DEVNULL)
+    maps = ["-map", "0"]
+    for _ in range(len(resolutions) - 1):
+        maps.append("-map")
+        maps.append("0:0")
+
+    subprocess.run(["mkdir", f"{path}/mpd",             f"{path}/m3u8",             f"{path}/rewind_frames"], stdout=subprocess.DEVNULL)
+    subprocess.run(["mkdir", f"{path}/mpd/{file_name}", f"{path}/m3u8/{file_name}", f"{path}/rewind_frames/{file_name}"], stdout=subprocess.DEVNULL)
+
+    subprocess.run(["ffmpeg", "-i", video_path,
+                    "-s:v", "256:144", "-vf", "fps=1",
+                    f"{path}/rewind_frames/{file_name}/%01d.png"
+    ], stdout=subprocess.DEVNULL)
+
+    # subprocess.run(["ffmpeg", "-i", video_path, *resolutions, f"{path}/m3u8/{file_name}/{file_name}.m3u8"], stdout=subprocess.DEVNULL)
+    subprocess.run(["ffmpeg", "-i", video_path, *s_v, *maps,
+                    "-use_timeline", "1",
+                    "-use_template", "1",
+                    "-adaptation_sets", "id=0,streams=v id=1,streams=a",
+                    f"{path}/mpd/{file_name}/{file_name}.mpd"
+    ], stdout=subprocess.DEVNULL)

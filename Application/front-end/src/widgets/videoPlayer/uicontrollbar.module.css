@@ -1,0 +1,322 @@
+.videoContainer {
+    --player-color: white;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+  
+    * span {
+      display: block;
+    }
+  
+    .videoPlayer {
+      width: 100%;
+      border-radius: 1rem;
+    }
+  
+    .videoController {
+      width: 100%;
+      --video-controller-padding-bottom: 1rem;
+      padding-bottom: var(--video-controller-padding-bottom);
+      box-sizing: border-box;
+      padding-left: 2rem;
+      padding-right: 2rem;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(transparent, #191919);
+      border-radius: 1rem;
+  
+      &, * {
+        transition: all linear 100ms;
+        flex-shrink: 0;
+        color: white;
+      }
+  
+      --see-line-up: 1rem;
+      --see-line-height: 0.5rem;
+      .SeeLine, .dinamicIndicator {
+        width: 100%;
+        box-sizing: border-box;
+        position: relative;
+        bottom: var(--see-line-up);
+        display: flex;
+  
+        * {
+          cursor: pointer;
+          transition: none;
+        }
+  
+        .linePoint {
+          border-radius: 50%;
+          padding: var(--see-line-height);
+          position: absolute;
+          top: calc(var(--see-line-height) / -2);
+          background: var(--player-color);
+          margin-left: calc(var(--see-line-height) / -2);
+          z-index: 11;
+        }
+  
+        .seeLine, .loadedLine, .sawLine {
+          height: var(--see-line-height);
+          border-radius: 10px;
+        }
+  
+        .seeLine {
+          position: absolute;
+          top: 0;
+          width: 100%;
+          background: #f7f7f755;
+          z-index: 9;
+        }
+        .loadedLine {
+          background: #f6f6f699;
+          position: absolute;
+          top: 0;
+        }
+        .sawLine {
+          background-color: #00d285;
+          z-index: 10;
+        }
+      }
+  
+      .videoControllerBtns {
+        display: flex;
+        align-items: center;
+        --video-controller-gap: 0.5rem;
+        gap: var(--video-controller-gap);
+  
+        --button-height: 1.8rem;
+        --button-prev-next-video-width: 1.9rem;
+        --button-play-element-width: 0.8rem;
+  
+        .PlayPauseBtn, .PlayNextBtn, .PlayPrevBtn {
+          position: relative;
+          cursor: pointer;
+          width: var(--button-prev-next-video-width);
+  
+          .Play1, .Play2, .Play3, .PlayNext1, .PlayPrev1 {
+            height: var(--button-height);
+            background-color: var(--player-color);
+            border-radius: 1rem;
+          }
+  
+          .Play1, .Play2, .Play3 {
+            width: var(--button-play-element-width);
+          }
+  
+          --play-rotate: 66deg;
+          --play-left: 0.6rem;
+          --play-top: 0.25rem;
+  
+          .Play2 {
+            transform: rotate(var(--play-rotate));
+            position: absolute;
+            left: var(--play-left);
+            top: var(--play-top);
+          }
+          .Play3 {
+            transform: rotate(calc(-1 * var(--play-rotate)));
+            position: absolute;
+            left: var(--play-left);
+            top: calc(-1 * var(--play-top));
+          }
+        }
+  
+        .PlayNextBtn, .PlayPrevBtn {
+          .PlayNext1, .PlayPrev1 {
+            width: 0.3rem;
+            position: absolute;
+            top: 0;
+          }
+        }
+  
+        .PlayNextBtn {
+          .PlayNext1 {
+            right: 0;
+          }
+        }
+        
+        .PlayPrevBtn {
+          .PlayNext1 {
+            left: 0;
+          }
+  
+          .Play1 {
+            margin-left: calc(var(--button-prev-next-video-width) - var(--button-play-element-width));
+          }
+  
+          .Play3 {
+            transform: rotate(var(--play-rotate));
+          }
+          .Play2 {
+            transform: rotate(calc(-1 * var(--play-rotate)));
+          }
+        }
+  
+        .dinamicBtn {
+          position: relative;
+          display: flex;
+          align-items: center;
+          gap: var(--video-controller-gap);
+  
+          .muteBtn {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            position: relative;
+  
+            .speaker, .speaker_2 {
+              height: var(--button-height);
+            }
+  
+            .speaker_1 {
+              height: calc(var(--button-height) - 0.6rem);
+            }
+  
+            .speaker_2 {
+              margin-left: -0.6rem;
+            }
+          }
+  
+          .dinamicIndicator {
+            bottom: 0;
+            height: var(--see-line-height);
+            width: 0;
+            scale: 0;
+            
+            .sawLine {
+              width: 100%;
+            }
+
+            .linePoint {
+              left: 100%;
+            }
+          }
+  
+          &:hover {
+            .dinamicIndicator {
+              scale: 1;
+              width: 5rem;
+              margin-right: 0.6rem;
+            }
+          }
+        }
+  
+        .timeDisplay {
+          display: flex;
+          gap: 0.2rem;
+        }
+  
+        .settingsBtn {
+          display: flex;
+
+          img {
+            cursor: pointer;
+            height: var(--button-height);
+          }
+          
+          .settings {
+            position: absolute;
+            bottom: calc(var(--video-controller-padding-bottom) + var(--button-height) +
+                         var(--see-line-up) + var(--see-line-height) + 0.5rem
+            );
+            right: 1.8rem;
+
+            --settings-background: #2d2d2d;
+            --settings-radius: 1rem;
+            
+            .inner_settings {
+              position: relative;
+
+              background-color: var(--settings-background);
+              padding: 0.2rem;
+              border-radius: var(--settings-radius);
+              display: flex;
+              flex-direction: column;
+            }
+
+            .settings_item, .settings_item_open {
+              border-radius: var(--settings-radius);
+            }
+
+            .settings_item_open {
+              background-color: var(--settings-background);
+              position: absolute;
+              right: 0;
+              bottom: 0;
+
+              display: grid;
+              padding: 1rem;
+
+              .settings_item, .settings_item_open_header {
+                padding: 0.5rem;
+              } 
+
+              .settings_item_open_header {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+                justify-content: space-between;
+              }
+
+              .settings_item {
+                flex-direction: row-reverse;
+              }
+            }
+
+            .settings_item {
+              display: flex;
+              gap: 1rem;
+              align-items: center;
+              cursor: pointer;
+              padding: 0.6rem;
+
+              img {
+                height: 1rem;
+              }
+
+              h6 {
+                flex-grow: 1;
+              }
+
+              p {
+                color: #c5c5c5;
+              }
+            }
+
+            .settings_item:hover {
+              background-color: #6a6a6a;
+            }
+
+            h6, p {
+              font-size: 1rem;
+              font-weight: bold;
+            }
+          }
+        }
+  
+        .fullScreenBtn {
+          cursor: pointer;
+          height: var(--button-height);
+        }
+  
+  
+        .PlayPauseBtnActive, .PlayNextBtnActive {
+          .Play1, .Play2, .Play3 {
+            width: 0.4rem;
+          }
+  
+          .Play2, .Play3 {
+            transform: rotate(0);
+            top: 0;
+            margin-left: 0.2rem;
+          }
+        }
+      }
+    }
+  }
+  

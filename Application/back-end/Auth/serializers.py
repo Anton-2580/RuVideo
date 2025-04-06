@@ -13,6 +13,7 @@ class UserDetailsSerializer(BaseUserDetailsSerializer):
             "first_name",
             "last_name",
             "photo",
+            "likest_format",
         )
         fields = ("pk", *extra_fields)
         read_only_fields = ("email", )

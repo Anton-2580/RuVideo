@@ -58,7 +58,7 @@ export function BaseForm<T extends Object>({
         if (error) {
             compliteSend("error", error?.message)
 
-            const data = error?.response?.data as Object
+            const data = error?.response?.data as { [key: string]: string[] }
             
             const errorString = Object.keys(data).reduce((acc, value) => {
                 if (!data.hasOwnProperty(value))

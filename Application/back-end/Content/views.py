@@ -25,6 +25,8 @@ class VideoWithChannelsViewSet(viewsets.ModelViewSet):
     serializer_class = VideoWithChannelsSerializer
     permission_classes = (IsOwnerOrReadOnly,)
 
+    lookup_field = "slug"
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()

@@ -3,7 +3,7 @@ import { Paths } from "@/shared"
 import { 
     home,
     shorts,
-    subscribes,
+    unselected_subscribes,
     translations,
     history,
     your_videos,
@@ -38,7 +38,7 @@ export const menuItems: MenuItems = {
             },
             {
                 i18nkey: "menu.items.subscriptions",
-                image: subscribes,
+                image: unselected_subscribes,
                 to: Paths.SUBSCRIBES,
             },
             {
@@ -95,7 +95,7 @@ export const mobileMenuItems: (MenuItemProps & {
     },
     {
         i18nkey: "menu.items.subscriptions",
-        image: subscribes,
+        image: unselected_subscribes,
         to: Paths.SUBSCRIBES,
     },
     {

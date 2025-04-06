@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_Слой_2" data-name="Слой 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 2.95 47.75 34.43">
+  <g id="_Слой_1-2" data-name="Слой 1">
+    <path style="fill: #ffffff00; stroke: #000; stroke-miterlimit: 10; stroke-width: 2px;" d="m1,19.58c0-2.64,2.19-4.78,4.89-4.78h35.96c2.7,0,4.89,2.14,4.89,4.78v12.02c0,2.64-2.19,4.78-4.89,4.78H5.89c-2.7,0-4.89-2.14-4.89-4.78v-12.02Z"/>
+    <path style="fill:#121212;" d="m27.7,24.19c1.52.72,1.52,2.89,0,3.61l-6.09,2.9c-1.33.63-2.86-.34-2.86-1.81v-5.79c0-1.47,1.53-2.44,2.86-1.81l6.09,2.9Z"/>
+    <rect style="fill: #ffffff00; stroke: #000; stroke-miterlimit: 10; stroke-width: 1.6px; stroke-linecap: round;" x="6.5" y="3.75" width="34" height="3" rx="2" ry="2"/>
+    <rect style="fill: #ffffff00; stroke: #000; stroke-miterlimit: 10; stroke-width: 1.6px;" x="4.5" y="9.25" width="39" height="3" rx="2" ry="2"/>
+  </g>
+</svg>

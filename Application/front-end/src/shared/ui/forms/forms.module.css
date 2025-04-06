@@ -27,7 +27,6 @@
 
   height: 2.6rem;
   padding-left: var(--standart-input-padding-left);
-  width: calc(100% - var(--standart-input-padding-left));
 }
 
 .standart_button {

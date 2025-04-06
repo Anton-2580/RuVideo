@@ -9,6 +9,8 @@ export type SubmitData = {
 export type UserState = {
     isLogined: boolean
     logining: boolean
+    likestFormat: string
     setIsLogined: (isLogined: boolean) => void
     setLogining: (logining: boolean) => void
+    setState: (state: UserState | Object) => void
 }

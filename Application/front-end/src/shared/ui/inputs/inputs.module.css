@@ -3,6 +3,7 @@
 }
 
 .input {
+  box-sizing: border-box;
   border-radius: 10px;
   border-color: mediumseagreen;
   height: 2rem;
@@ -31,7 +32,6 @@
 
   .input {
     padding-right: calc(var(--width-password-eye) - var(--translate-eye) + 5px);
-    width: calc(100% - var(--width-password-eye) + var(--translate-eye));
   }
 }
 
