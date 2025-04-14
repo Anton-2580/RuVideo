@@ -1,16 +1,29 @@
 {
+    "go_home": "Вернуться на главную",
     "sign_in": "Войти",
     "sign_up": "Зарегистрироваться",
     "browsing_one": "{{count}} просмотр",
     "browsing_many": "{{count}} просмотров",
     "browsing_few": "{{count}} просмотра",
 
+    "user": {
+        "settings": "Настройки",
+        "signOut": "Выйти",
+        "changeAccount": "Сменить аккаунт",
+        "seeChannel": "Посмотреть канал"
+    },
     
     "loginRegistration": {
         "signInTitle": "Вход",
         "signIn": "Войти",
         "signInSuccess": "Успешно вошли",
         "signInLoading": "Вход...",
+
+        "signOutTitle": "Окно Выхода",
+        "signOutInfo": "История просмотра и другие пользовательские данные не будут синхронизироваться с вашим аккаунтом. Но они будут сохранятся в этой сессии.",
+        "signOutSuccess": "Вы Успешно вышли",
+        "signOutLoading": "Выход...",
+        "signOutError": "Не удалось выйти",
 
         "signUpTitle": "Регистрация",
         "signUp": "Зарегистрироваться",

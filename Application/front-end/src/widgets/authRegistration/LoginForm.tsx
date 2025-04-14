@@ -1,14 +1,13 @@
-import { lazy, useRef } from "react"
+import { useRef } from "react"
 import { Link } from "react-router"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import { Logo } from "@/widgets/logo"
-import { BaseForm, EmailInput, FormInput, PasswordInput, Paths, PathsAPI } from "@/shared"
+import { DefaultToast, BaseForm, EmailInput, FormInput, PasswordInput, Paths, PathsAPI } from "@/shared"
 import { type SubmitData, useUserStore } from "@/entities"
 import AlternativesAuth from "./AlternativesAuth"
 import styles from "@/shared/ui/forms/forms.module.css"
 
-const DefaultToast = lazy(() => import("@/shared/ui/toasts/defaultToast"))
 
 
 export default function LoginForm() {
@@ -21,8 +20,8 @@ export default function LoginForm() {
     const { t } = useTranslation()
 
     return <BaseForm 
-        loadingMessage={ t("signInLoading") }
-        successMessage={ t("signInSuccess") }
+        loadingMessage={ t("loginRegistration.signInLoading") }
+        successMessage={ t("loginRegistration.signInSuccess") }
         successNavigate={Paths.HOME}
         handleSubmit={handleSubmit}
         data={data}

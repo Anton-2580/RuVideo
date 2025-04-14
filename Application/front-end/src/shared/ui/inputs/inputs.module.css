@@ -6,7 +6,6 @@
   box-sizing: border-box;
   border-radius: 10px;
   border-color: mediumseagreen;
-  height: 2rem;
   width: 100%;
 
   &:focus-visible {

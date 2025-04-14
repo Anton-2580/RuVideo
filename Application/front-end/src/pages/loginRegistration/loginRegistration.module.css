@@ -4,3 +4,37 @@
   align-items: center;
   height: 100%;
 }
+
+.signOutBlock {
+  background-color: #00d385aa;
+  border-radius: 16px;
+  width: 35vw;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 1rem;
+
+  .buttons {
+    display: flex;
+    gap: 3rem;
+
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 16px;
+      background-color: #00d385;
+      width: 7rem;
+      cursor: pointer;
+    }
+  }
+}
+
+@media(max-width: 800px) {
+  .signOutBlock {
+    width: 60vw;
+  }
+}

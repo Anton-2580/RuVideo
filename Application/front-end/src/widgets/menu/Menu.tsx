@@ -27,7 +27,7 @@ export default function Menu() {
     }
 
     return (<nav className={ styles.groups }>{
-        menuItems.menuItemList.map((element, i1) => (<div key={"menu groups item" + i1}>
+        menuItems.menuItemList.map((element, i1) => (<div key={"menu groups item" + i1} className={ styles.groups_container }>
             { getMenuTitle(i1) }
             { getMenuBlock(element, i1) }
             { menuItems.menuItemList.length != i1+1 ? <hr key={"menu hr " + i1}/> : ""}

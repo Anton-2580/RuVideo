@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&display=swap');
 
-.group {
+.groups, .groups_container, .group {
   display: flex;
   flex-direction: column;
+  gap: 0.4rem;
 }
 
 .groups {
@@ -53,6 +54,7 @@
 
 #content {
   margin-bottom: var(--mobile-menu-height);
+  width: 100%;
 }
 
 #mobile_menu {

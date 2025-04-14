@@ -2,8 +2,8 @@ import type { DetailedHTMLProps, FormHTMLAttributes, RefObject } from "react"
 import { useEffect, useRef } from "react"
 import { useNavigate } from "react-router"
 import type { UseFormHandleSubmit } from "react-hook-form"
-import type { Id, TypeOptions } from "react-toastify"
-import { setToast, toast } from "@/shared/util/lazyLibraries/toastify"
+import type { Id, TypeOptions, UpdateOptions } from "react-toastify"
+import { toast } from "@/shared/util/lazyLibraries/toastify"
 import type { Paths, PathsAPI } from "@/shared"
 import { Query, useOrdinaryQuery } from "@/shared/api"
 import styles from "./forms.module.css" 
@@ -32,33 +32,23 @@ export function BaseForm<T extends Object>({
     className,
     ...props
 }: BaseFormProps<T>) {
-    if (toast === undefined) {
-        setToast()
-    }
-
     const navigate = useNavigate()
-    const { refetch, error, isLoading, isSuccess } = useOrdinaryQuery(path, Query.POST, data.current, {
-        enabled: Object.values(data.current).some(Boolean),
-    })
-
-
-    const compliteSend = (type: TypeOptions, message?: string) => {
-        toast?.update(loadingId.current, {
-            render: message,
-            type,
-            isLoading: false,
-            autoClose: 1000,
-        })
-        loadingId.current = -1
-    }
 
     const loadingId = useRef<Id>(-1)
+    const { refetch, isLoading } = useOrdinaryQuery(path, Query.POST, data.current, {
+        enabled: Object.values(data.current).some(Boolean),
+        keepPreviousData: false,
+        onSuccess: () => {
+            compliteSend("success", successMessage, {autoClose: 3000})
+            setIsComplete(true)
+            navigate(successNavigate)
+        },
+        onError: (error) => {
+            compliteSend("error", error.message)
 
-    useEffect(() => {
-        if (error) {
-            compliteSend("error", error?.message)
-
-            const data = error?.response?.data as { [key: string]: string[] }
+            const data = error.response?.data as { [key: string]: string[] }
+            if (!data)
+                return
             
             const errorString = Object.keys(data).reduce((acc, value) => {
                 if (!data.hasOwnProperty(value))
@@ -68,20 +58,27 @@ export function BaseForm<T extends Object>({
             }, '')
 
             toast?.info(errorString)
-        }
-    }, [error])
+        },
+    })
+
+
+    const compliteSend = (type: TypeOptions, message?: string, options?: UpdateOptions) => {
+        toast?.update(loadingId.current, {
+            render: message,
+            type,
+            isLoading: false,
+            autoClose: false,
+            closeOnClick: true,
+            ...options
+        })
+        loadingId.current = -1
+    }
+
     useEffect(() => {
         if (isLoading && toast) {
             loadingId.current = toast.loading(loadingMessage)
         }
     }, [isLoading])
-    useEffect(() => {
-        if (isSuccess) {
-            compliteSend("success", successMessage)
-            setIsComplete(true)
-            navigate(successNavigate)
-        }
-    }, [isSuccess])
 
     const onSubmit = (newData: T) => {
         if (loadingId.current == -1) {

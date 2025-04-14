@@ -1,2 +1,2 @@
 export type { ChannelInfo } from "./ChannelInfo"
-export type { VideoInfo } from "./VideoInfo"
+export type { VideoInfo, VideoInfoDetail } from "./VideoInfo"

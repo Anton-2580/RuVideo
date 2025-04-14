@@ -1,13 +1,11 @@
-import { lazy, useRef } from "react"
+import { useRef } from "react"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import { Logo } from "@/widgets/logo"
 import type { SubmitData } from "@/entities"
-import { BaseForm, PasswordInput, PathsAPI, FormInput, EmailInput, Paths } from "@/shared"
+import { DefaultToast, BaseForm, PasswordInput, PathsAPI, FormInput, EmailInput, Paths } from "@/shared"
 import styles from "@/shared/ui/forms/forms.module.css"
 import AlternativesAuth from "./AlternativesAuth"
-
-const DefaultToast = lazy(() => import("@/shared/ui/toasts/defaultToast"))
 
 
 export default function RegistrationForm() {

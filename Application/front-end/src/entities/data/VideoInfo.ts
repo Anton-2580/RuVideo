@@ -12,3 +12,9 @@ export interface VideoInfo {
     channel: ChannelInfo
     browsing: number
 }
+
+export interface VideoInfoDetail extends VideoInfo {
+    mpd: string
+    m3u8: string
+    rewind_frames: string
+}

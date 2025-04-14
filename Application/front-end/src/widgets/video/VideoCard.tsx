@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from "react"
+import type { CSSProperties, RefObject } from "react"
 import { useRef, useState } from "react"
 import { Link } from "react-router"
 import { useTranslation } from "react-i18next"
@@ -7,17 +7,20 @@ import type { VideoInfo } from "@/entities"
 import { NavigateVideoButton, NavigateTextButton, useOnClickOnside, Paths } from "@/shared"
 import { isEquals } from "@/shared/util/functions"
 import { domAnimation, LazyMotion, motion } from "@/shared/util/lazyLibraries/motion"
+import type { HTMLMotionProps, MotionStyle } from "motion/dist/react"
 
 import styles from "./video.module.css"
 import { default_user } from "@/shared/img"
 
 
-export type VideoCardProps = PropsWithChildren & {
+export type VideoCardProps = HTMLMotionProps<"article"> & {
     videoInfo?: VideoInfo
+    style?: CSSProperties
+    videoRef?: RefObject<HTMLVideoElement | null>
 }
 
 
-export default function VideoCard({ videoInfo, ...props }: VideoCardProps) {
+export default function VideoCard({ videoInfo, videoRef, ...props }: VideoCardProps) {
     if (videoInfo === null || videoInfo === undefined)
         return <VideoLoader />
 
@@ -27,6 +30,7 @@ export default function VideoCard({ videoInfo, ...props }: VideoCardProps) {
     const show = useRef({clickCard: true, moreInfo: false})
     const [showState, setShowState] = useState({clickCard: true, moreInfo: false})
 
+    const channelRef = useRef<HTMLAnchorElement>(null)
     const moreInfoRef = useRef<HTMLDivElement>(null)
     const moreInfoButtonRef = useRef<HTMLUListElement>(null)
     const lazyMotionRef = useRef<HTMLElement>(null)
@@ -47,14 +51,28 @@ export default function VideoCard({ videoInfo, ...props }: VideoCardProps) {
             show.current.moreInfo = false
         }
 
+        if (channelRef.current?.contains(target)) {
+            show.current.clickCard = false
+            show.current.moreInfo = false
+        }
+
         if (!isEquals(oldShow.current, show.current)) {
             oldShow.current = {...show.current}
             setShowState({...show.current})
         }
-    }, [moreInfoRef])
+    }, [moreInfoRef, lazyMotionRef, moreInfoButtonRef])
 
     const slug = Paths.VIDEOS + videoInfo.slug + '/'
-    const channel_slug = `${Paths.CHANNEL}${videoInfo.channel.id}-${videoInfo.channel.name}/` 
+    const channel_slug = Paths.CHANNEL + videoInfo.channel.name + '/'
+
+    const moreInfoStyle: MotionStyle = {}
+    if (moreInfoRef.current &&
+        (moreInfoRef.current.getBoundingClientRect().right + moreInfoRef.current.offsetWidth + 32) <= window.innerWidth
+    ) {
+        moreInfoStyle.left = "32px"
+    } else {
+        moreInfoStyle.right = "32px"
+    }
 
     return (<LazyMotion features={domAnimation}><motion.article className={styles.video_card} {...props} ref={lazyMotionRef}
         whileTap={{ 
@@ -62,7 +80,7 @@ export default function VideoCard({ videoInfo, ...props }: VideoCardProps) {
             backgroundColor: showState.clickCard ? `var(${ColorVars.videoHoverColor})` : undefined,
         }}
     >
-        <NavigateVideoButton to={slug} videos={[videoInfo.video]} poster={videoInfo.photo ?? undefined} />
+        <NavigateVideoButton to={slug} videos={[videoInfo.video]} poster={videoInfo.photo ?? undefined} videoRef={videoRef} />
         
         <div className={styles.video_card_title} >
             <NavigateTextButton to={slug} text={ videoInfo.title } />
@@ -73,11 +91,12 @@ export default function VideoCard({ videoInfo, ...props }: VideoCardProps) {
                 }}
             >
                 <li /><li /><li />
-                <motion.div className={styles.video_card_more_info} initial={{  display: "none" }} ref={moreInfoRef}
+                <motion.div className={styles.video_card_more_info} initial={{  scale: 0 }} ref={moreInfoRef}
                     animate={{
-                        display: showState.moreInfo ? "block" : "none",
+                        scale: showState.moreInfo ? 1 : 0,
                         opacity: showState.moreInfo ? 1 : 0,
                     }}
+                    style={moreInfoStyle}
                     onPointerDownCapture={e => e.stopPropagation()}
                 >
                     <p>adasdsada</p>
@@ -85,7 +104,7 @@ export default function VideoCard({ videoInfo, ...props }: VideoCardProps) {
             </motion.ul>
         </div>
 
-        <Link to={videoInfo.channel.name} className={styles.video_card_channel}>
+        <Link to={channel_slug} className={styles.video_card_channel} ref={channelRef}>
             <img alt="channel image" loading="lazy" src={videoInfo.channel.photo ?? default_user} 
                 style={{
                     borderRadius: "50%",

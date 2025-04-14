@@ -1,14 +1,28 @@
 {
+    "go_home": "Go home",
     "sign_in": "Sign in",
     "sign_up": "Sign up",
     "browsing_one": "{{count}} view",
     "browsing_many": "{{count}} views",
+
+    "user": {
+        "settings": "Settings",
+        "signOut": "Sign out",
+        "changeAccount": "Change account",
+        "seeChannel": "See channel"
+    },
 
     "loginRegistration": {
         "signInTitle": "Entrance",
         "signIn": "Sign in",
         "signInSuccess": "Successfully signed in",
         "signInLoading": "Signing in...",
+
+        "signOutTitle": "Exit page",
+        "signOutInfo": "Your history and other user data will not be synchronized with your account, but they will be saved in this session.",
+        "signOutSuccess": "Successfully signed out",
+        "signOutLoading": "Signing out...",
+        "signOutError": "Error signing out",
 
         "signUpTitle": "Registration",
         "signUp": "Sign up",

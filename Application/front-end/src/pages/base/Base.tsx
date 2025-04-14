@@ -1,7 +1,6 @@
-import { JSX, lazy } from "react"
+import { JSX } from "react"
 import { Outlet } from "react-router"
-
-const DefaultToast = lazy(() => import("@/shared/ui/toasts/defaultToast"))
+import { DefaultToast } from "@/shared/ui"
 
 
 type BaseProps = {

@@ -1,4 +1,4 @@
-import { type CSSProperties } from "react";
+import type { CSSProperties, RefObject } from "react";
 import { Link, type LinkProps } from "react-router";
 
 
@@ -19,6 +19,7 @@ type NavigateVideoButtonProps = LinkProps & {
     videos: Array<string>
     videoClassName?: string
     poster?: string
+    videoRef?: RefObject<HTMLVideoElement | null>
 }
 
 
@@ -34,9 +35,9 @@ export function NavigateTextButton({ to, text, style, ...props }: NavigateTextBu
     </Link>)
 }
 
-export function NavigateVideoButton({ to, videos, poster, videoClassName, ...props }: NavigateVideoButtonProps) {
+export function NavigateVideoButton({ to, videos, poster, videoClassName, videoRef, ...props }: NavigateVideoButtonProps) {
     return (<Link to={to} {...props}>
-        <video poster={poster} className={videoClassName} >
+        <video poster={poster} className={videoClassName} ref={videoRef} >
             {videos.map(video =>
                 <source src={video} key={video}/>
             )}

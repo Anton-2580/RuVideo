@@ -9,7 +9,7 @@ from .tasks import send_notification, create_video_files
 
 class Channel(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.PROTECT, verbose_name="автор")
-    name = models.CharField(unique=True, max_length=25, verbose_name="название")
+    name = models.CharField(unique=True, db_index=True, max_length=25, verbose_name="название")
     description = models.TextField(null=True, blank=True, verbose_name="описание")
     photo = models.ImageField(null=True, blank=True, upload_to="photos/%Y/%m/%d/", verbose_name="аватарка")
     is_blocked = models.BooleanField(default=False, verbose_name="блокировка")

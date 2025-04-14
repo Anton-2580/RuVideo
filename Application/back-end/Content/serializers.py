@@ -13,7 +13,7 @@ class ChannelSerializer(serializers.ModelSerializer):
         model = Channel
         extra_kwargs = {
             "is_blocked": {"read_only": True},
-            "subscribers": {"read_only": True}
+            "subscribers": {"read_only": True},
         }
         fields = "__all__"
 
@@ -27,6 +27,15 @@ class VideoSerializer(serializers.ModelSerializer):
         res = super().to_representation(instance)
         res["dataTime"] = instance.dataTime.timestamp()
         return res
+
+    @staticmethod
+    def add_formats(res: dict):
+        path = res["video"].rsplit("original", maxsplit=1)
+        filename = path[1].rsplit(".", maxsplit=1)[0]
+
+        res["mpd"] = f"{path[0]}/mpd/{filename}/{filename}.mpd"
+        res["m3u8"] = f"{path[0]}/m3u8/{filename}/{filename}.m3u8"
+        res["rewind_frames"] = f"{path[0]}/rewind_frames/{filename}/%01d.png"
 
     @staticmethod
     def validate_video(data):
@@ -44,10 +53,20 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = "__all__"
+        extra_kwargs = {
+            "browsing": {"read_only": True},
+        }
 
 
 class VideoWithChannelsSerializer(VideoSerializer):
     channel = ChannelSerializer(read_only=True)
+
+class VideoDetailWithChannelsSerializer(VideoWithChannelsSerializer):
+    def to_representation(self, instance: Video):
+        res = super().to_representation(instance)
+
+        self.add_formats(res)
+        return res
 
 
 class CommentSerializer(serializers.ModelSerializer):

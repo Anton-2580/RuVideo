@@ -8,8 +8,9 @@ async function setToast() {
     toast = await import("react-toastify").then(module => module.toast)
 }
 
+setToast()
+
 export {
     ToastContainer,
     toast,
-    setToast,
 }

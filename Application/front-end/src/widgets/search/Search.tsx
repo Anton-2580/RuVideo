@@ -2,14 +2,11 @@ import { useEffect, useRef } from "react"
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition"
 import { useSearch } from "@/features"
 import { search as searchImg, listen } from "@/shared/img"
-import { toast, setToast } from "@/shared/util/lazyLibraries/toastify"
+import { toast } from "@/shared/util/lazyLibraries/toastify"
 import styles from "./search.module.css"
 
 
 export default function Search() {
-    if (toast === undefined)
-        setToast()
-
     const search = useSearch()
     const inputRef = useRef<HTMLInputElement>(null)
 

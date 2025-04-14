@@ -2,7 +2,7 @@ import { Suspense } from "react"
 import { createBrowserRouter, RouterProvider } from "react-router"
 import { Paths } from "@/shared"
 import { ContentHeader, Menu, MobileMenu } from "@/widgets"
-import { Base, HomePage, LoginPage, RegistrationPage, ShortsPage, SubscribesPage, TranslationsPage,
+import { Base, HomePage, LoginPage, LogoutPage, RegistrationPage, ShortsPage, SubscribesPage, TranslationsPage,
  		 YouPage, VideoPage,
 } from "@/pages"
 
@@ -43,6 +43,9 @@ const router = createBrowserRouter([
 		element: <Suspense><VideoPage /></Suspense>
 	},
 	{
+		path: Paths.CHANNEL + ":name/",
+	},
+	{
 		path: Paths.YOU,
 		element: <Suspense><YouPage /></Suspense>
 	},
@@ -53,6 +56,10 @@ const router = createBrowserRouter([
 	{
 		path: Paths.REGISTRATION,
 		element: <Suspense><RegistrationPage /></Suspense>
+	},
+	{
+		path: Paths.LOGOUT,
+		element: <Suspense><LogoutPage /></Suspense>
 	},
 ])
 

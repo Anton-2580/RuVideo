@@ -5,7 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from .permissions import IsOwnerOrReadOnly, IsOwner
 
 from .models import Channel, Video, Comment, Hashtag, Rating, Subscribe, Notification
-from .serializers import (ChannelSerializer, VideoSerializer, VideoWithChannelsSerializer, CommentSerializer,
+from .serializers import (ChannelSerializer, VideoSerializer, VideoWithChannelsSerializer,
+                          VideoDetailWithChannelsSerializer, CommentSerializer,
                           HashtagSerializer, RatingSerializer, SubscribeSerializer, NotificationSerializer)
 
 
@@ -26,6 +27,12 @@ class VideoWithChannelsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsOwnerOrReadOnly,)
 
     lookup_field = "slug"
+
+    def get_serializer_class(self, *args, **kwargs):
+        if self.action == "retrieve":
+            return VideoDetailWithChannelsSerializer
+
+        return self.serializer_class
 
 
 class CommentViewSet(viewsets.ModelViewSet):

@@ -14,6 +14,7 @@ class UserDetailsSerializer(BaseUserDetailsSerializer):
             "last_name",
             "photo",
             "likest_format",
+            "play_auto_next",
         )
         fields = ("pk", *extra_fields)
         read_only_fields = ("email", )

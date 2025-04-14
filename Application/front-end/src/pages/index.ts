@@ -4,6 +4,7 @@ import { lazy } from "react"
 const Base = lazy(() => import("@/pages/base/Base"))
 const HomePage = lazy(() => import("@/pages/home/HomePage"))
 const LoginPage = lazy(() => import("@/pages/loginRegistration/LoginPage"))
+const LogoutPage = lazy(() => import("@/pages/loginRegistration/LogoutPage"))
 const RegistrationPage = lazy(() => import("@/pages/loginRegistration/RegistrationPage"))
 const ShortsPage = lazy(() => import("@/pages/shorts/ShortsPage"))
 const SubscribesPage = lazy(() => import("@/pages/subscribes/SubscribesPage"))
@@ -15,6 +16,7 @@ export {
     Base,
     HomePage,
     LoginPage,
+    LogoutPage,
     RegistrationPage,
     ShortsPage,
     SubscribesPage,
