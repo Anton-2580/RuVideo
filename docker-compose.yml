@@ -80,3 +80,4 @@ services:
     volumes:
       - ./Application/back-end/static:/usr/local/nginx/static
       - ./Application/back-end/media:/usr/local/nginx/media
+      - ./Application/nginx/certs/letsencrypt/:/etc/letsencrypt/
