@@ -49,6 +49,8 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
 
   front-end:
@@ -81,3 +83,6 @@ services:
       - ./Application/back-end/static:/usr/local/nginx/static
       - ./Application/back-end/media:/usr/local/nginx/media
       - ./Application/nginx/certs/letsencrypt/:/etc/letsencrypt/
+
+volumes:
+  pgdata:

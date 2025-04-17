@@ -1,50 +1,26 @@
 import type { DetailedHTMLProps, ImgHTMLAttributes, DragEvent, MouseEvent, JSX, RefObject } from "react"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { arrow, fullscreen_btn, fullscreen_btn_1, settings, speaker, speaker_1, speaker_2 } from "@/shared/img"
-import { useUIPlayerStore } from "@/entities"
+import type { BasePlayerViewModel, PlayerRefs } from "./ViewModels"
 import styles from "./uicontrollbar.module.css"
 
 
 export type UIVideoPlayerProps = {
+    refs: PlayerRefs
     title: string | undefined
     settingsProps: SettingsBtnProps
-    setMute?: () => void
-    setPlay?: (style: string) => void
-    changeTime?: (event: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>) => void
-    finishChangeTime?: (event: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>) => void
-    changeMute?: (event: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>) => void
-    onClickButtonNext?: () => void
-    onClickButtonPrev?: () => void
-    setFullScreen?: () => void
-    onMouseMove?: (event: DragEvent<HTMLElement>) => void
+    viewModel: BasePlayerViewModel
 }
 
 export default function UIVideoPlayer({ 
     title,
-    setMute, setPlay,
-    changeTime, finishChangeTime, 
-    changeMute,
-    onClickButtonNext, onClickButtonPrev,
-    setFullScreen, 
-    onMouseMove,
     settingsProps,
+    refs,
+    viewModel
 }: UIVideoPlayerProps) {
-    const refs = useUIPlayerStore(state => state.refs)
-    const setActiveStyles = useUIPlayerStore(state => state.setActiveStyles)
-
-    useEffect(() => {
-        setActiveStyles(activeStyles => ({ 
-            ...activeStyles,
-            play: styles.PlayPauseBtnActive,
-        }))
-    }, [])
-
-    if (!refs)
-        return
-
     return (<article className={styles.videoContainer} ref={refs.videoContainer} 
-        onMouseMove={onMouseMove}
+        onMouseMove={viewModel.onMouseMove}
     >
         <video
             className={styles.videoPlayer}
@@ -54,31 +30,29 @@ export default function UIVideoPlayer({
         />
         <div className={styles.videoController} > 
             <div className={styles.SeeLine} ref={refs.seeLine} >
-                <span className={styles.seeLine} onDrag={changeTime} onClick={changeTime} onMouseUp={finishChangeTime} onDragEnd={finishChangeTime} />
-                <span className={styles.sawLine} onDrag={changeTime} onClick={changeTime} onMouseUp={finishChangeTime} onDragEnd={finishChangeTime} />
+                <span className={styles.seeLine} onDrag={viewModel.changeTime} onClick={viewModel.changeTime} onMouseUp={viewModel.finishChangeTime} onDragEnd={viewModel.finishChangeTime} />
+                <span className={styles.sawLine} onDrag={viewModel.changeTime} onClick={viewModel.changeTime} onMouseUp={viewModel.finishChangeTime} onDragEnd={viewModel.finishChangeTime} />
                 <span className={styles.linePoint} />
-                <span className={styles.loadedLine} onDrag={changeTime} onClick={changeTime} onMouseUp={finishChangeTime} onDragEnd={finishChangeTime} />
+                <span className={styles.loadedLine} onDrag={viewModel.changeTime} onClick={viewModel.changeTime} onMouseUp={viewModel.finishChangeTime} onDragEnd={viewModel.finishChangeTime} />
             </div>
             
             <div className={styles.videoControllerBtns} >
                 <div className={styles.PlayPauseBtn} 
-                    ref={refs.playBtn} onClickCapture={() => {
-                        if (setPlay) setPlay(styles.PlayPauseBtnActive)
-                    }}
+                    ref={refs.playBtn} onClickCapture={viewModel.setPlay}
                 >
                     <span className={styles.Play1} />
                     <span className={styles.Play2} />
                     <span className={styles.Play3} />
                 </div>
 
-                <div className={styles.PlayPrevBtn} onCanPlayCapture={onClickButtonPrev ?? (() => {})} >
+                <div className={styles.PlayPrevBtn} onCanPlayCapture={viewModel.onClickButtonPrev ?? (() => {})} >
                     <span className={styles.Play1} />
                     <span className={styles.Play2} />
                     <span className={styles.Play3} />
                     <span className={styles.PlayPrev1} />
                 </div>
 
-                <div className={styles.PlayNextBtn} onCanPlayCapture={onClickButtonNext ?? (() => {})} >
+                <div className={styles.PlayNextBtn} onCanPlayCapture={viewModel.onClickButtonNext ?? (() => {})} >
                     <span className={styles.Play1} />
                     <span className={styles.Play2} />
                     <span className={styles.Play3} />
@@ -86,14 +60,14 @@ export default function UIVideoPlayer({
                 </div>
 
                 <div className={styles.dinamicBtn} ref={refs.dinamicBtn} >
-                    <div className={styles.muteBtn} onClick={setMute}>
+                    <div className={styles.muteBtn} onClick={(e) => viewModel.setMute(e)}>
                         <img loading="lazy" src={speaker} className={styles.speaker}  alt="speaker" />
                         <img loading="lazy" src={speaker_1} className={styles.speaker_1}  alt="speaker" />
                         <img loading="lazy" src={speaker_2} className={styles.speaker_2}  alt="speaker" />
                     </div>
                     <div className={styles.dinamicIndicator} >
-                        <span className={styles.seeLine} onDrag={changeMute} onClick={changeMute} />
-                        <span className={styles.sawLine} onDrag={changeMute} onClick={changeMute} />
+                        <span className={styles.seeLine} onDrag={viewModel.changeMute} onClick={viewModel.changeMute} />
+                        <span className={styles.sawLine} onDrag={viewModel.changeMute} onClick={viewModel.changeMute} />
                         <span className={styles.linePoint} />
                     </div>
                 </div>
@@ -109,7 +83,7 @@ export default function UIVideoPlayer({
                 <SettingsBtn {...settingsProps} />
 
                 <FullScreen loading="lazy" src={fullscreen_btn} alt="fullscreen"
-                    className={styles.fullScreenBtn} onClickCapture={setFullScreen} />
+                    className={styles.fullScreenBtn} onClickCapture={viewModel.setFullScreen} />
 
             </div>
         </div>

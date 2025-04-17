@@ -1,45 +1,30 @@
 import { useCallback, useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
-import type { MediaPlayerClass } from "dashjs"
-import { MediaPlayer } from "dashjs"
-// import { MediaPlayer } from "dashjs/dist/modern/esm/dash.mediaplayer.min.js"  // how do this
-import { useUIPlayerStore, useDashPlayerStore } from "@/entities"
 import type { SpecificVideoPlayerProps } from "../VideoPlayer"
 import type { SettingsOpenItemProps } from "../UIVideoPlayer"
 import UIVideoPlayer from "../UIVideoPlayer"
+import { DashPlayerViewModel } from "../ViewModels"
 import styles from "../uicontrollbar.module.css"
+import { MediaPlayer } from "dashjs"
 
 
-export default function DashVideoPlayer({ src, title }: SpecificVideoPlayerProps) {
+export default function DashVideoPlayer({ src, title, refs }: SpecificVideoPlayerProps) {
     const { t } = useTranslation()
 
-    const refs = useUIPlayerStore(state => state.refs)
-    const playerRef = useRef<MediaPlayerClass>(null)
-    const setPlayerRef = useDashPlayerStore(state => state.setPlayerRef)
-    if (!playerRef.current)
-        setPlayerRef(playerRef)
-
-    const startInterval = useDashPlayerStore(state => state.startStateInterval)
-    const clearStateInterval = useDashPlayerStore(state => state.clearStateInterval)
-    const setOnListeners = useDashPlayerStore(state => state.setOnListeners)
-    const setOffListeners = useDashPlayerStore(state => state.setOffListeners)
-
-    const setPlay = useDashPlayerStore(state => state.setPlay)
-    const setMute = useDashPlayerStore(state => state.setMute)
-    const changeMute = useDashPlayerStore(state => state.changeMute)
-    const changeTime = useDashPlayerStore(state => state.changeTime)
-    const finishChangeTime = useDashPlayerStore(state => state.finishChangeTime)
-    const setFullScreen = useDashPlayerStore(state => state.setFullScreen)
-    const onMouseMove = useDashPlayerStore(state => state.onMouseMove)
+    const viewModel = useRef(new DashPlayerViewModel(
+        refs, 
+        {
+            play: styles.PlayPauseBtnActive,
+        },
+    ))
 
     useEffect(() => {
-        if (!refs?.videoRef?.current) 
+        if (!refs.videoRef.current) 
             return 
-        
-        playerRef.current = MediaPlayer().create()
-    
-        playerRef.current.initialize(refs.videoRef.current, src, true)
-        playerRef.current.updateSettings({
+
+        viewModel.current.player = MediaPlayer().create()
+        viewModel.current.player.initialize(refs.videoRef.current, src, true)
+        viewModel.current.player.updateSettings({
             streaming: {
                 text: {
                     defaultEnabled: true,
@@ -51,40 +36,37 @@ export default function DashVideoPlayer({ src, title }: SpecificVideoPlayerProps
                 },
             },
         })
-        playerRef.current.attachView(refs.videoRef.current)
+        viewModel.current.player.attachView(refs.videoRef.current)
 
         updateData()
-        setOnListeners()
-        startInterval()
+        viewModel.current.setOnListeners()
+        viewModel.current.startInterval()
 
         return () => {
-            setOffListeners()
-            clearStateInterval()
+            viewModel.current.setOffListeners()
+            viewModel.current.clearInterval()
 
-            if (playerRef.current) {
-                playerRef.current.destroy();
-                playerRef.current = null;
-            }
+            viewModel.current.player.destroy()
         }
-    }, [])
+    }, [refs.videoRef])
 
     const updateData = useCallback(() => {
         setTimeout(() => {
-            if (!refs?.timeDisplay?.current || !playerRef?.current?.duration()) 
+            if (!refs?.timeDisplay?.current || !viewModel.current.player.duration()) 
                 return updateData()
 
             const fullTime = refs.timeDisplay.current.children[2] as HTMLSpanElement
 
-            fullTime.textContent = playerRef.current?.isDynamic() ? "● Live" : 
-                playerRef.current.convertToTimeCode(playerRef.current.duration())
+            fullTime.textContent = viewModel.current.player.isDynamic() 
+                ? "● Live" 
+                : viewModel.current.player.convertToTimeCode(viewModel.current.player.duration())
         }, 100)
-    }, [refs?.timeDisplay, playerRef])
+    }, [refs.timeDisplay])
 
 
-    const qualityChangeRequested = useDashPlayerStore(state => state.qualityChangeRequested)
     const Representations = useCallback(function({ onClick }: SettingsOpenItemProps) {
-        const representations = useDashPlayerStore(state => state.representations)
-        const autoSwitchBitrate = playerRef.current?.getSettings().streaming?.abr?.autoSwitchBitrate
+        const representations = viewModel.current.representations
+        const autoSwitchBitrate = viewModel.current.player.getSettings().streaming?.abr?.autoSwitchBitrate
 
         if (!autoSwitchBitrate)
             return
@@ -94,7 +76,7 @@ export default function DashVideoPlayer({ src, title }: SpecificVideoPlayerProps
                 onClickCapture={() => {
                     autoSwitchBitrate.video = true
 
-                    qualityChangeRequested()
+                    viewModel.current?.qualityChangeRequested()
                     onClick && onClick()
                 }}
             >{t("player.representationAuto")}</p>
@@ -104,7 +86,7 @@ export default function DashVideoPlayer({ src, title }: SpecificVideoPlayerProps
                         onClickCapture={() => {
                             autoSwitchBitrate.video = false
 
-                            playerRef.current?.setRepresentationForTypeByIndex("video", i.index)
+                            viewModel.current.player.setRepresentationForTypeByIndex("video", i.index)
                             onClick && onClick()
                         }}
                     >{i.height}</p>
@@ -113,14 +95,12 @@ export default function DashVideoPlayer({ src, title }: SpecificVideoPlayerProps
         </>)
     }, [])
 
-    const subtitles = useDashPlayerStore(state => state.subtitles)
     const Subtitles = useCallback(function({ onClick }: SettingsOpenItemProps) {
-        const subtitles = useDashPlayerStore(state => state.subtitles)
-        const updateCurrentSubtitlesLang = useDashPlayerStore(state => state.updateCurrentSubtitlesLang)
+        const subtitles = viewModel.current.subtitles
 
         const click = (index: number) => {
-            playerRef.current?.setTextTrack(index)
-            updateCurrentSubtitlesLang()
+            viewModel.current.player.setTextTrack(index)
+            viewModel.current.updateCurrentSubtitlesLang()
 
             onClick && onClick()
         }
@@ -144,7 +124,7 @@ export default function DashVideoPlayer({ src, title }: SpecificVideoPlayerProps
             [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2].map((i, index) => (
                 <p className={styles.settings_item} key={index}
                     onClickCapture={() => {
-                        playerRef.current?.setPlaybackRate(i)
+                        viewModel.current.player.setPlaybackRate(i)
                         onClick && onClick()
                     }}
                 >{i}x</p>
@@ -152,19 +132,13 @@ export default function DashVideoPlayer({ src, title }: SpecificVideoPlayerProps
         }</>
     }, [])
 
-    const currentRepresentation = useDashPlayerStore(state => state.currentRepresentation)
-    const currentSubtitlesLang = useDashPlayerStore(state => state.currentSubtitlesLang)
-    const currentSpeed = useDashPlayerStore(state => state.currentSpeed)
+    const currentRepresentation = viewModel.current.currentRepresentation
+    const currentSubtitlesLang = viewModel.current.currentSubtitlesLang
+    const currentSpeed = viewModel.current.currentSpeed
+    const subtitles = viewModel.current.subtitles
 
     return (<UIVideoPlayer 
         title={title}
-        setMute={setMute}
-        setPlay={setPlay}
-        changeMute={changeMute}
-        changeTime={changeTime}
-        finishChangeTime={finishChangeTime}
-        setFullScreen={setFullScreen}
-        onMouseMove={onMouseMove}
         settingsProps={{
             Quality: Representations,
             currentQuality: currentRepresentation.replace("Auto", t("player.representationAuto")),
@@ -173,5 +147,7 @@ export default function DashVideoPlayer({ src, title }: SpecificVideoPlayerProps
             Subtitles: subtitles.length ? Subtitles : undefined,
             currentSubtitle: subtitles.length ? (currentSubtitlesLang ?? t("player.subtitlesOff")) : t("player.subtitlesNone"),
         }}
+        refs={refs}
+        viewModel={viewModel.current}
     />)
 }
